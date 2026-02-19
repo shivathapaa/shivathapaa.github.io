@@ -1,33 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shiva Thapa - KMP Developer</title>
-  <meta name="description" content="Kotlin Multiplatform developer crafting apps that feel native on Android & iOS. Open source contributor based in Kathmandu, Nepal." />
-  <meta property="og:title" content="Shiva Thapa - KMP Developer" />
-  <meta property="og:description" content="Kotlin Multiplatform developer crafting apps that feel native on Android & iOS." />
-  <meta property="og:url" content="https://shivathapaa.github.io" />
+  <meta name="description"
+    content="Kotlin Multiplatform developer crafting apps that feel native on Android & iOS. Open source contributor based in Kathmandu, Nepal." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne+Mono&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
-      --cream: #F5EDD9;
-      --cream2: #EDE0C4;
-      --ink: #1A1710;
-      --ink2: #2E2B21;
-      --saffron: #D4862A;
-      --saffron-light: #F0A94E;
-      --sage: #6B8F71;
-      --sage-light: #93B899;
-      --terra: #B07248;
-      --muted: #7A6D52;
-      --border: #D5C9AE;
-      --ticker-h: 32px;
-      --nav-h: 62px;
+      --cream: #f5edd9;
+      --cream2: #ede0c4;
+      --ink: #1a1710;
+      --ink2: #2e2b21;
+      --saffron: #d4862a;
+      --saffron-light: #f0a94e;
+      --sage: #6b8f71;
+      --sage-light: #93b899;
+      --terra: #b07248;
+      --muted: #7a6d52;
+      --border: #d5c9ae;
+      --ticker-h: 34px;
+      --nav-h: 68px;
       --offset: calc(var(--ticker-h) + var(--nav-h));
     }
 
@@ -39,342 +46,876 @@
     body {
       background: var(--cream);
       color: var(--ink);
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
+      font-family: "Syne", sans-serif;
+      font-size: 17px;
       overflow-x: hidden;
     }
 
+    /* TICKER */
     .ticker-wrap {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 600;
-      background: var(--ink); overflow: hidden; height: var(--ticker-h);
-      display: flex; align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 600;
+      background: var(--ink);
+      overflow: hidden;
+      height: var(--ticker-h);
+      display: flex;
+      align-items: center;
     }
+
     .ticker-label {
-      background: var(--saffron); color: var(--ink);
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
-      padding: 0 1rem; height: 100%;
-      display: flex; align-items: center; flex-shrink: 0;
+      background: var(--saffron);
+      color: var(--ink);
+      font-family: "Syne Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0 1.2rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
       z-index: 1;
     }
+
+    .ticker-viewport {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
     .ticker-track {
       display: flex;
-      animation: ticker 36s linear infinite;
       white-space: nowrap;
       will-change: transform;
     }
-    .ticker-item {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; letter-spacing: .07em;
-      color: rgba(245,237,217,.6);
-      padding: 0 2.5rem;
-      display: inline-flex; align-items: center; gap: .5rem;
-    }
-    .ticker-item::before { content: '◆'; color: var(--saffron); font-size: .42rem; }
-    @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
 
+    .ticker-item {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.07em;
+      color: rgba(245, 237, 217, 0.65);
+      padding: 0 2.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
+    }
+
+    .ticker-item::before {
+      content: "◆";
+      color: var(--saffron);
+      font-size: 0.4rem;
+    }
+
+    /* NAV */
     nav {
-      position: fixed; top: var(--ticker-h); left: 0; right: 0; z-index: 500;
-      padding: 1rem 3.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(245,237,217,.96);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      position: fixed;
+      top: var(--ticker-h);
+      left: 0;
+      right: 0;
+      z-index: 500;
+      padding: 1rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(245, 237, 217, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       height: var(--nav-h);
+      transition: box-shadow 0.3s;
     }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 700; letter-spacing: .03em;
-    }
-    .nav-logo em { color: var(--saffron); font-style: italic; }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; transition: color .2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
-      height: 1px; background: var(--saffron);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform .25s ease;
-    }
-    .nav-links a:hover { color: var(--saffron); }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-links a.active { color: var(--saffron); }
-    .nav-links a.active::after { transform: scaleX(1); }
-    .nav-cta {
-      font-family: 'Syne Mono', monospace;
-      font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
-      background: var(--ink); color: var(--cream);
-      padding: .55rem 1.3rem; border-radius: 2px;
-      text-decoration: none; transition: background .2s, color .2s;
-    }
-    .nav-cta:hover { background: var(--saffron); color: var(--ink); }
 
+    nav.scrolled {
+      box-shadow: 0 4px 30px rgba(26, 23, 16, 0.08);
+    }
+
+    .nav-logo {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-logo em {
+      color: var(--saffron);
+      font-style: italic;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.8rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: var(--saffron);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--saffron);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links a.active {
+      color: var(--saffron);
+    }
+
+    .nav-cta {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 0.6rem 1.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition:
+        background 0.2s,
+        color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta:hover {
+      background: var(--saffron);
+      color: var(--ink);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* HERO */
     .hero {
       min-height: 100svh;
-      padding-top: calc(var(--offset) + 4rem);
-      padding-bottom: 5rem;
-      padding-left: 3.5rem;
-      padding-right: 3.5rem;
+      padding-top: calc(var(--offset) + 5rem);
+      padding-bottom: 6rem;
+      padding-left: 4rem;
+      padding-right: 4rem;
       position: relative;
       display: grid;
-      grid-template-columns: 1fr 220px;
+      grid-template-columns: 1fr 240px;
       align-items: end;
-      gap: 3rem;
+      gap: 4rem;
       overflow: hidden;
     }
+
     .hero-watermark {
       position: absolute;
-      right: -3rem; top: 50%;
-      transform: translateY(-52%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(13rem, 21vw, 21rem);
-      font-weight: 700; font-style: italic;
+      right: -2rem;
+      top: 36%;
+      transform: translateY(-50%);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(11rem, 18vw, 19rem);
+      font-weight: 700;
+      font-style: italic;
       color: transparent;
-      -webkit-text-stroke: 1px var(--border);
-      line-height: 1; pointer-events: none;
-      user-select: none; white-space: nowrap;
+      -webkit-text-stroke: 1px rgba(213, 201, 174, 0.75);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 0;
     }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
     .hero-eyebrow {
-      display: flex; align-items: center; gap: .9rem;
-      margin-bottom: 1.4rem;
-      opacity: 0; animation: riseUp .8s ease .1s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: riseUp 0.8s ease 0.1s forwards;
     }
+
     .alive-dot {
-      width: 9px; height: 9px; border-radius: 50%; background: var(--sage);
-      animation: livePulse 2s ease 1.8s infinite; flex-shrink: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--sage);
+      animation: livePulse 2s ease 1.8s infinite;
+      flex-shrink: 0;
     }
+
     @keyframes livePulse {
-      0%,100% { box-shadow: 0 0 0 0 rgba(107,143,113,.5); }
-      50% { box-shadow: 0 0 0 9px rgba(107,143,113,0); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(107, 143, 113, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(107, 143, 113, 0);
+      }
     }
+
     .hero-eyebrow-text {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--sage);
+      font-family: "Syne Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
     }
+
     .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(5rem, 11.5vw, 11rem);
-      font-weight: 700; line-height: .88; letter-spacing: -.025em;
-      margin-bottom: .6rem;
-      opacity: 0; animation: riseUp 1s ease .25s forwards;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(5.5rem, 10vw, 10.5rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: riseUp 1s ease 0.25s forwards;
     }
+
     .hero-name .hollow {
-      display: block; margin-left: 2.5rem;
-      color: transparent; -webkit-text-stroke: 1.5px var(--ink);
+      display: block;
+      margin-left: 3rem;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--ink);
     }
+
+    .hero-divider {
+      width: 3rem;
+      height: 2px;
+      background: var(--saffron);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: riseUp 0.8s ease 0.4s forwards;
+    }
+
     .hero-role-row {
-      margin-bottom: 2.5rem;
-      opacity: 0; animation: riseUp .9s ease .45s forwards;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: riseUp 0.9s ease 0.5s forwards;
     }
+
     .hero-role {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.2rem, 2vw, 1.7rem);
-      font-weight: 300; font-style: italic; color: var(--muted);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.85rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
     }
+
     .spin-word {
-      color: var(--saffron); font-weight: 600; font-style: normal;
-      display: inline-block; min-width: 210px;
+      color: var(--saffron);
+      font-weight: 600;
+      font-style: normal;
+      display: inline-block;
+      min-width: 240px;
+      transition:
+        opacity 0.28s ease,
+        transform 0.28s ease;
     }
+
     .hero-bio {
-      max-width: 520px; font-size: 1rem; line-height: 1.85;
-      color: var(--muted); margin-bottom: 2.5rem;
-      opacity: 0; animation: riseUp .9s ease .6s forwards;
+      max-width: 550px;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: riseUp 0.9s ease 0.65s forwards;
     }
-    .hero-bio strong { color: var(--ink); font-weight: 600; }
+
+    .hero-bio strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
     .hero-btns {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: riseUp .9s ease .75s forwards;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: riseUp 0.9s ease 0.8s forwards;
     }
+
     .btn-fill {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-      background: var(--ink); color: var(--cream);
-      padding: .9rem 2rem; border-radius: 2px; text-decoration: none;
-      transition: all .22s; display: inline-block;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--cream);
+      padding: 1rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: all 0.22s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .btn-fill:hover { background: var(--saffron); color: var(--ink); transform: translateY(-2px); }
+
+    .btn-fill:hover {
+      background: var(--saffron);
+      color: var(--ink);
+      transform: translateY(-2px);
+    }
+
     .btn-ghost {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-      background: transparent; color: var(--ink);
+      font-family: "Syne Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--ink);
       border: 1.5px solid var(--ink);
-      padding: .9rem 2rem; border-radius: 2px; text-decoration: none;
-      transition: all .22s; display: inline-block;
+      padding: 1rem 2.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: all 0.22s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    .btn-ghost:hover { border-color: var(--saffron); color: var(--saffron); transform: translateY(-2px); }
+
+    .btn-ghost:hover {
+      border-color: var(--saffron);
+      color: var(--saffron);
+      transform: translateY(-2px);
+    }
 
     .hero-stats {
-      display: flex; flex-direction: column; gap: 1rem;
-      position: relative; z-index: 2;
-      opacity: 0; animation: slideFromRight .9s ease .9s forwards;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: slideFromRight 0.9s ease 0.95s forwards;
     }
+
     .stat-block {
-      border: 1px solid var(--border); border-radius: 4px;
-      padding: 1.3rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem 1.8rem;
+      background: rgba(245, 237, 217, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-block.dark {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .stat-n {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--saffron);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-block.dark .stat-n {
+      color: var(--saffron-light);
+    }
+
+    .stat-l {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stat-block.dark .stat-l {
+      color: rgba(245, 237, 217, 0.4);
+    }
+
+    @keyframes riseUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideFromRight {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* MARQUEE BAR */
+    .marquee-bar {
+      background: var(--ink);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 1.2rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .marquee-bar::before,
+    .marquee-bar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee-bar::before {
+      left: 0;
+      background: linear-gradient(to right, var(--ink), transparent);
+    }
+
+    .marquee-bar::after {
+      right: 0;
+      background: linear-gradient(to left, var(--ink), transparent);
+    }
+
+    .marquee-inner {
+      display: flex;
+      white-space: nowrap;
+      will-change: transform;
+      width: max-content;
+    }
+
+    .mq-item {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(245, 237, 217, 0.4);
+      padding: 0 2.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+      cursor: default;
+      flex-shrink: 0;
+    }
+
+    .mq-item:hover {
+      color: var(--saffron-light);
+    }
+
+    .mq-item.hi {
+      color: rgba(245, 237, 217, 0.72);
+    }
+
+    .mq-item.sage {
+      color: var(--sage-light);
+    }
+
+    .mq-sep {
+      color: var(--saffron);
+      font-size: 0.4rem;
+      align-self: center;
+    }
+
+    /* SECTIONS */
+    .sec {
+      padding: 8rem 4rem;
+      position: relative;
+    }
+
+    .ghost-n {
+      position: absolute;
+      top: 1rem;
+      left: 2rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(7rem, 13vw, 14rem);
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .sec-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 2rem;
+      height: 1.5px;
+      background: var(--saffron);
+      flex-shrink: 0;
+    }
+
+    .sec-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    /* ABOUT */
+    .about-sec {
       background: var(--cream);
     }
-    .stat-block.dark { background: var(--ink); border-color: var(--ink); }
-    .stat-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.6rem; font-weight: 700; line-height: 1;
-      color: var(--saffron); margin-bottom: .2rem;
-    }
-    .stat-block.dark .stat-n { color: var(--saffron-light); }
-    .stat-l {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
-    }
-    .stat-block.dark .stat-l { color: rgba(245,237,217,.4); }
 
-    @keyframes riseUp { from{opacity:0;transform:translateY(26px);} to{opacity:1;transform:translateY(0);} }
-    @keyframes slideFromRight { from{opacity:0;transform:translateX(18px);} to{opacity:1;transform:translateX(0);} }
-
-    .marquee-bar {
-      background: var(--ink); border-top: 1px solid #2a2620;
-      padding: 1.1rem 0; overflow: hidden;
-    }
-    .marquee-inner {
-      display: flex; animation: mq 28s linear infinite; white-space: nowrap;
-      will-change: transform;
-    }
-    .marquee-inner:hover { animation-play-state: paused; }
-    .mq-item {
-      font-family: 'Syne Mono', monospace;
-      font-size: .76rem; letter-spacing: .07em; text-transform: uppercase;
-      color: rgba(245,237,217,.45); padding: 0 2rem;
-      display: inline-flex; align-items: center; gap: .4rem;
-      transition: color .2s; cursor: default;
-    }
-    .mq-item:hover { color: var(--saffron-light); }
-    .mq-item.hi { color: rgba(245,237,217,.7); }
-    .mq-item.sage { color: var(--sage-light); }
-    .mq-sep { color: var(--saffron); font-size: .42rem; }
-    @keyframes mq { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
-
-    .sec { padding: 7rem 3.5rem; position: relative; }
-    .ghost-n {
-      position: absolute; top: 1.5rem; left: 2rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(7rem, 13vw, 13rem); font-weight: 700;
-      color: transparent; -webkit-text-stroke: 1px var(--border);
-      line-height: 1; pointer-events: none; user-select: none; z-index: 0;
-    }
-    .sec-inner { position: relative; z-index: 1; }
-    .eyebrow {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; letter-spacing: .22em; text-transform: uppercase;
-      color: var(--saffron); margin-bottom: .8rem;
-      display: flex; align-items: center; gap: .7rem;
-    }
-    .eyebrow::before { content:''; width: 1.8rem; height: 1px; background: var(--saffron); }
-    .sec-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 4.5vw, 3.9rem);
-      font-weight: 600; line-height: 1.1; letter-spacing: -.01em;
-    }
-
-    .about-sec { background: var(--cream); }
     .about-grid {
-      display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem;
-      align-items: start; margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 5.5rem;
+      align-items: start;
+      margin-top: 4rem;
     }
-    .about-p { font-size: .97rem; line-height: 1.95; color: var(--muted); margin-bottom: 1.4rem; }
-    .about-p strong { color: var(--ink); font-weight: 600; }
+
+    .about-p {
+      font-size: 1rem;
+      line-height: 1.95;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-p strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .about-p:last-of-type {
+      margin-bottom: 0;
+    }
 
     .ios-banner {
-      margin-top: 1.8rem; background: var(--ink);
-      border-radius: 6px; padding: 1.8rem 2rem; position: relative; overflow: hidden;
+      margin-top: 2rem;
+      background: var(--ink);
+      border-radius: 8px;
+      padding: 2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
     }
+
     .ios-banner::after {
-      content: '🍎'; position: absolute;
-      right: -1.2rem; top: -2rem;
-      font-size: 8rem; opacity: .06; pointer-events: none;
+      content: "";
+      position: absolute;
+      right: -2rem;
+      top: -3rem;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle,
+          rgba(100, 181, 246, 0.08) 0%,
+          transparent 70%);
+      pointer-events: none;
     }
+
     .ios-live {
-      display: inline-flex; align-items: center; gap: .45rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
-      color: #64B5F6; margin-bottom: .8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #64b5f6;
+      margin-bottom: 0.9rem;
     }
-    .ios-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #64B5F6; animation: blink 1.4s ease infinite; flex-shrink: 0; }
-    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.2;} }
+
+    .ios-live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #64b5f6;
+      animation: blink 1.4s ease infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
     .ios-banner h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem; font-weight: 700; color: var(--cream); margin-bottom: .5rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.55rem;
     }
-    .ios-banner p { font-size: .84rem; color: rgba(245,237,217,.5); line-height: 1.7; font-family: 'Syne', sans-serif; }
-    .ios-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+
+    .ios-banner p {
+      font-size: 0.88rem;
+      color: rgba(245, 237, 217, 0.5);
+      line-height: 1.75;
+    }
+
+    .ios-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.1rem;
+    }
+
     .ios-chip {
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem; letter-spacing: .07em; text-transform: uppercase;
-      background: rgba(100,181,246,.09); border: 1px solid rgba(100,181,246,.22);
-      color: #8EC8F6; padding: .32rem .8rem; border-radius: 2px;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: rgba(100, 181, 246, 0.09);
+      border: 1px solid rgba(100, 181, 246, 0.22);
+      color: #8ec8f6;
+      padding: 0.35rem 0.85rem;
+      border-radius: 3px;
     }
 
-    .skills-list { display: flex; flex-direction: column; gap: 1.5rem; }
-    .skill-row { border-bottom: 1px solid var(--border); padding-bottom: 1.4rem; }
-    .skill-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .skill-row {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+    }
+
+    .skill-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
     .skill-row-label {
-      font-family: 'Syne Mono', monospace;
-      font-size: .64rem; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: .9rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
     }
-    .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
     .chip {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem; letter-spacing: .04em;
-      padding: .38rem .9rem; border-radius: 2px;
-      border: 1px solid var(--border); color: var(--ink2);
-      transition: all .18s; cursor: default;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      padding: 0.4rem 1rem;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      color: var(--ink2);
+      transition: all 0.18s;
+      cursor: default;
     }
-    .chip:hover { border-color: var(--saffron); color: var(--saffron); }
-    .chip.ink { background: var(--ink); color: var(--cream); border-color: var(--ink); }
-    .chip.ink:hover { background: var(--saffron); border-color: var(--saffron); color: var(--ink); }
-    .chip.ios-c { border-color: rgba(100,181,246,.35); color: #64B5F6; background: rgba(100,181,246,.07); }
 
+    .chip:hover {
+      border-color: var(--saffron);
+      color: var(--saffron);
+    }
+
+    .chip.ink {
+      background: var(--ink);
+      color: var(--cream);
+      border-color: var(--ink);
+    }
+
+    .chip.ink:hover {
+      background: var(--saffron);
+      border-color: var(--saffron);
+      color: var(--ink);
+    }
+
+    .chip.ios-c {
+      border-color: rgba(100, 181, 246, 0.35);
+      color: #64b5f6;
+      background: rgba(100, 181, 246, 0.07);
+    }
+
+    /* PHILOSOPHY */
     .philo-sec {
-      background: var(--ink); padding: 9rem 3.5rem;
-      text-align: center; position: relative; overflow: hidden;
-    }
-    .philo-sec::before {
-      content: '"'; position: absolute; left: -2.5rem; top: -6rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28rem; line-height: 1; color: rgba(255,255,255,.025); pointer-events: none;
-    }
-    .philo-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.65rem, 3.2vw, 2.8rem);
-      font-weight: 300; font-style: italic;
-      color: var(--cream); line-height: 1.55;
-      max-width: 820px; margin: 0 auto 2rem;
-      position: relative; z-index: 1;
-    }
-    .philo-quote em { color: var(--saffron-light); font-style: normal; }
-    .philo-rule { width: 36px; height: 1px; background: var(--saffron); margin: 1.4rem auto; }
-    .philo-by {
-      font-family: 'Syne Mono', monospace;
-      font-size: .64rem; letter-spacing: .2em; text-transform: uppercase;
-      color: rgba(245,237,217,.3);
+      background: var(--ink);
+      padding: 10rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    .proj-sec { background: var(--cream2); }
+    .philo-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .philo-bg-circle.c1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle,
+          rgba(212, 134, 42, 0.06) 0%,
+          transparent 70%);
+      left: -200px;
+      top: -200px;
+    }
+
+    .philo-bg-circle.c2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle,
+          rgba(107, 143, 113, 0.06) 0%,
+          transparent 70%);
+      right: -150px;
+      bottom: -150px;
+    }
+
+    .philo-quote {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.7rem, 3.5vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.6;
+      max-width: 860px;
+      margin: 0 auto 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .philo-quote em {
+      color: var(--saffron-light);
+      font-style: normal;
+    }
+
+    .philo-rule {
+      width: 40px;
+      height: 1.5px;
+      background: var(--saffron);
+      margin: 1.6rem auto;
+    }
+
+    .philo-by {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245, 237, 217, 0.3);
+    }
+
+    /* PROJECTS */
+    .proj-sec {
+      background: var(--cream2);
+    }
+
+    .proj-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .proj-count {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
 
     .proj-scroll-wrapper {
-      margin-left: -3.5rem;
-      margin-right: -3.5rem;
+      margin-left: -4rem;
+      margin-right: -4rem;
       margin-top: 2.5rem;
       position: relative;
     }
-    .proj-scroll-wrapper::after {
-      content: '';
+
+    .proj-scroll-wrapper::before {
+      content: "";
       position: absolute;
-      right: 0; top: 0; bottom: 1.5rem;
-      width: 80px;
+      left: 0;
+      top: 0;
+      bottom: 1.5rem;
+      width: 60px;
+      background: linear-gradient(to right, var(--cream2), transparent);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .proj-scroll-wrapper::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 1.5rem;
+      width: 100px;
       background: linear-gradient(to left, var(--cream2), transparent);
       pointer-events: none;
       z-index: 2;
@@ -385,844 +926,1993 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       cursor: grab;
-      padding-bottom: 1.5rem;
+      padding-bottom: 2rem;
     }
-    .proj-scroll-outer::-webkit-scrollbar { display: none; }
-    .proj-scroll-outer:active { cursor: grabbing; }
+
+    .proj-scroll-outer::-webkit-scrollbar {
+      display: none;
+    }
+
+    .proj-scroll-outer:active {
+      cursor: grabbing;
+    }
 
     .proj-track {
       display: flex;
-      gap: 1.5rem;
-      padding: 0.5rem 3.5rem 0.5rem;
+      gap: 1.6rem;
+      padding: 0.5rem 4rem 0.5rem;
       width: max-content;
     }
 
     .p-card {
-      width: 360px; flex-shrink: 0;
-      background: var(--cream); border: 1px solid var(--border);
-      border-radius: 6px; overflow: hidden;
-      display: flex; flex-direction: column;
-      text-decoration: none; color: inherit;
-      transition: transform .3s ease, box-shadow .3s ease;
+      width: 380px;
+      flex-shrink: 0;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.25s;
+      position: relative;
     }
+
     .p-card:hover {
-      transform: translateY(-7px);
-      box-shadow: 0 22px 55px rgba(26,23,16,.13);
+      transform: translateY(-8px);
+      box-shadow: 0 28px 65px rgba(26, 23, 16, 0.14);
+      border-color: var(--saffron);
     }
+
     .p-card-top {
-      padding: 1.8rem 1.8rem 1.4rem;
+      padding: 2rem 2rem 1.6rem;
       border-bottom: 1px solid var(--border);
       position: relative;
     }
+
     .p-num {
-      position: absolute; top: 1.1rem; right: 1.4rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem; font-weight: 700; color: var(--border);
+      position: absolute;
+      top: 1.2rem;
+      right: 1.6rem;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--border);
+      transition: color 0.25s;
     }
-    .p-icon { font-size: 1.8rem; margin-bottom: .85rem; }
+
+    .p-card:hover .p-num {
+      color: var(--saffron);
+    }
+
+    .p-icon {
+      font-size: 2rem;
+      margin-bottom: 0.9rem;
+    }
+
     .p-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem; font-weight: 700; margin-bottom: .35rem; line-height: 1.2;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      line-height: 1.15;
     }
+
     .p-sub {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem; letter-spacing: .04em; color: var(--muted); line-height: 1.5;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      line-height: 1.55;
     }
-    .p-card-mid { padding: 1.4rem 1.8rem; flex: 1; }
-    .p-desc { font-size: .9rem; color: var(--muted); line-height: 1.8; }
+
+    .p-card-mid {
+      padding: 1.5rem 2rem;
+      flex: 1;
+    }
+
+    .p-desc {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
     .p-card-bot {
-      padding: 1.1rem 1.8rem;
-      background: var(--cream2); border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2rem;
+      background: var(--cream2);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
     }
+
     .p-lang {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; color: var(--muted);
-      display: flex; align-items: center; gap: .4rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
-    .pip { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-    .pip.k { background: #7F52FF; }
-    .pip.py { background: #3572A5; }
-    .pip.km { background: linear-gradient(135deg,#7F52FF 50%,#0A84FF 50%); }
-    .p-tags { display: flex; gap: .35rem; flex-wrap: wrap; }
+
+    .pip {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .pip.k {
+      background: #7f52ff;
+    }
+
+    .pip.py {
+      background: #3572a5;
+    }
+
+    .pip.km {
+      background: linear-gradient(135deg, #7f52ff 50%, #0a84ff 50%);
+    }
+
+    .p-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
     .ptag {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem; letter-spacing: .05em; text-transform: uppercase;
-      padding: .22rem .58rem; border-radius: 2px;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.24rem 0.65rem;
+      border-radius: 3px;
     }
-    .ptag.s { background: rgba(212,134,42,.11); border: 1px solid rgba(212,134,42,.28); color: var(--saffron); }
-    .ptag.g { background: rgba(107,143,113,.1); border: 1px solid rgba(107,143,113,.28); color: var(--sage); }
-    .ptag.d { background: var(--ink); color: var(--cream); }
+
+    .ptag.s {
+      background: rgba(212, 134, 42, 0.11);
+      border: 1px solid rgba(212, 134, 42, 0.28);
+      color: var(--saffron);
+    }
+
+    .ptag.g {
+      background: rgba(107, 143, 113, 0.1);
+      border: 1px solid rgba(107, 143, 113, 0.28);
+      color: var(--sage);
+    }
+
+    .ptag.d {
+      background: var(--ink);
+      color: var(--cream);
+      border: 1px solid var(--ink);
+    }
+
+    .p-card-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.9rem 2rem;
+      border-top: 1px solid var(--border);
+      gap: 0.4rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .p-card:hover .p-card-link {
+      color: var(--saffron);
+    }
+
+    .p-card-link svg {
+      transition: transform 0.2s;
+    }
+
+    .p-card:hover .p-card-link svg {
+      transform: translate(2px, -2px);
+    }
 
     .drag-hint {
-      display: inline-flex; align-items: center; gap: .6rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--muted); margin-top: .8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.67rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
     }
-    .drag-line { width: 38px; height: 1px; background: var(--muted); position: relative; overflow: hidden; }
+
+    .drag-line {
+      width: 40px;
+      height: 1.5px;
+      background: rgba(122, 109, 82, 0.3);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
     .drag-line::after {
-      content:''; position:absolute; inset:0;
-      background: var(--saffron); transform: translateX(-100%);
-      animation: sl 1.6s ease 1s infinite;
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--saffron);
+      transform: translateX(-100%);
+      animation: sl 1.8s ease 1s infinite;
     }
-    @keyframes sl { 0%{transform:translateX(-100%);} 50%{transform:translateX(0);} 100%{transform:translateX(100%);} }
 
-    .exp-sec { background: var(--cream); }
-    .exp-layout { display: grid; grid-template-columns: 250px 1fr; gap: 4rem; margin-top: 3.5rem; }
-    .exp-sidebar { position: sticky; top: calc(var(--offset) + 1.5rem); align-self: start; }
+    @keyframes sl {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      50% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    /* EXPERIENCE */
+    .exp-sec {
+      background: var(--cream);
+    }
+
+    .exp-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 5rem;
+      margin-top: 4rem;
+    }
+
+    .exp-sidebar {
+      position: sticky;
+      top: calc(var(--offset) + 2rem);
+      align-self: start;
+    }
+
     .exp-side-item {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 0.6rem; border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 0.8rem;
       cursor: pointer;
-      border-radius: 4px;
-      transition: background .18s;
-      margin: 0 -0.6rem;
+      border-radius: 5px;
+      transition: background 0.18s;
+      margin: 0 -0.8rem;
+      border-bottom: 1px solid var(--border);
     }
-    .exp-side-item:first-child { border-top: 1px solid var(--border); }
-    .exp-side-item:hover { background: rgba(212,134,42,.06); }
-    .exp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background .2s; }
-    .exp-side-item.on .exp-dot { background: var(--saffron); }
+
+    .exp-side-item:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .exp-side-item:hover {
+      background: rgba(212, 134, 42, 0.06);
+    }
+
+    .exp-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.2s;
+      margin-top: 0.25rem;
+    }
+
+    .exp-side-item.on .exp-dot {
+      background: var(--saffron);
+    }
+
     .exp-side-lbl {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); transition: color .2s; line-height: 1.4;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+      line-height: 1.5;
     }
-    .exp-side-item.on .exp-side-lbl { color: var(--ink); font-weight: 700; }
 
-    .exp-entries { display: flex; flex-direction: column; gap: 3.5rem; }
-    .exp-entry { padding-bottom: 3.5rem; border-bottom: 1px solid var(--border); scroll-margin-top: calc(var(--offset) + 2rem); }
-    .exp-entry:last-child { border-bottom: none; padding-bottom: 0; }
+    .exp-side-meta {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      color: var(--border);
+      margin-top: 0.2rem;
+      display: block;
+      transition: color 0.2s;
+    }
+
+    .exp-side-item.on .exp-side-lbl {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .exp-side-item.on .exp-side-meta {
+      color: var(--saffron);
+    }
+
+    .exp-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    .exp-entry {
+      scroll-margin-top: calc(var(--offset) + 2.5rem);
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-entry:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .exp-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+
     .exp-period {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--saffron); margin-bottom: .5rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      margin-bottom: 0.6rem;
     }
+
     .exp-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.85rem; font-weight: 700; margin-bottom: .3rem; line-height: 1.2;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
     }
+
     .exp-co {
-      font-family: 'Syne Mono', monospace;
-      font-size: .76rem; color: var(--muted); margin-bottom: 1.2rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
     }
-    .exp-pts { list-style: none; }
+
+    .exp-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--saffron);
+      text-decoration: none;
+      border: 1px solid rgba(212, 134, 42, 0.3);
+      padding: 0.5rem 1.1rem;
+      border-radius: 3px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .exp-link:hover {
+      background: var(--saffron);
+      color: var(--ink);
+      border-color: var(--saffron);
+    }
+
+    .exp-link svg {
+      flex-shrink: 0;
+    }
+
+    .exp-pts {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
     .exp-pts li {
-      font-size: .93rem; color: var(--muted);
-      line-height: 1.8; padding-left: 1.4rem;
-      position: relative; margin-bottom: .4rem;
+      font-size: 0.96rem;
+      color: var(--muted);
+      line-height: 1.85;
+      padding-left: 1.6rem;
+      position: relative;
+      margin-bottom: 0.5rem;
     }
-    .exp-pts li::before { content:'→'; position:absolute; left:0; color:var(--saffron); font-size:.78rem; top:.05em; }
 
-    .oss-sec { background: var(--cream2); }
+    .exp-pts li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+      width: 8px;
+      height: 1.5px;
+      background: var(--saffron);
+    }
+
+    /* OPEN SOURCE */
+    .oss-sec {
+      background: var(--cream2);
+    }
+
     .oss-grid {
-      display: grid; grid-template-columns: repeat(5,1fr);
-      gap: 1px; margin-top: 3.5rem;
-      border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
     }
-    .oss-cell {
-      background: var(--cream); padding: 2rem 1.6rem;
-      text-decoration: none; color: inherit;
-      border-right: 1px solid var(--border);
-      transition: background .25s;
-    }
-    .oss-cell:last-child { border-right: none; }
-    .oss-cell:hover { background: var(--ink); }
-    .oss-cell:hover .oss-name { color: var(--cream); }
-    .oss-cell:hover .oss-desc { color: rgba(245,237,217,.45); }
-    .oss-cell:hover .oss-arr { color: var(--saffron); transform: translate(3px,-3px); }
-    .oss-em { font-size: 1.6rem; margin-bottom: .9rem; }
-    .oss-name { font-weight: 700; font-size: .88rem; margin-bottom: .4rem; transition: color .25s; }
-    .oss-desc {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem; color: var(--muted); line-height: 1.6; transition: color .25s;
-    }
-    .oss-arr { display: block; margin-top: 1rem; font-size: .85rem; color: var(--border); transition: all .22s; }
 
+    .oss-cell {
+      background: var(--cream);
+      padding: 2.2rem 2rem;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition:
+        background 0.25s,
+        transform 0.25s,
+        border-color 0.25s,
+        box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .oss-cell::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--saffron);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .oss-cell:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(26, 23, 16, 0.15);
+    }
+
+    .oss-cell:hover::before {
+      transform: scaleX(1);
+    }
+
+    .oss-cell:hover .oss-name {
+      color: var(--cream);
+    }
+
+    .oss-cell:hover .oss-desc {
+      color: rgba(245, 237, 217, 0.45);
+    }
+
+    .oss-cell:hover .oss-arr {
+      color: var(--saffron);
+    }
+
+    .oss-cell:hover .oss-em-wrap {
+      background: rgba(212, 134, 42, 0.15);
+    }
+
+    .oss-em-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: var(--cream2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      transition: background 0.25s;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .oss-body {
+      flex: 1;
+    }
+
+    .oss-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      transition: color 0.25s;
+    }
+
+    .oss-desc {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.65;
+      transition: color 0.25s;
+    }
+
+    .oss-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      transition: border-color 0.25s;
+    }
+
+    .oss-cell:hover .oss-footer {
+      border-color: rgba(245, 237, 217, 0.1);
+    }
+
+    .oss-tag {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+
+    .oss-cell:hover .oss-tag {
+      color: rgba(245, 237, 217, 0.3);
+    }
+
+    .oss-arr {
+      color: var(--border);
+      transition: all 0.22s;
+      display: flex;
+      align-items: center;
+    }
+
+    .oss-cell:hover .oss-arr svg {
+      transform: translate(3px, -3px);
+    }
+
+    /* CONTACT */
     .contact-sec {
       background: var(--cream);
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 5rem; align-items: center;
-      padding: 8rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      padding: 9rem 4rem;
     }
-    .contact-eyebrow { margin-bottom: .8rem; }
+
+    .contact-eyebrow {
+      margin-bottom: 0.9rem;
+    }
+
     .contact-mail {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.2rem, 2.2vw, 1.95rem); font-weight: 600;
-      color: var(--ink); text-decoration: none;
-      display: inline-block; border-bottom: 2px solid var(--border);
-      padding-bottom: .35rem; margin: 1rem 0 2.5rem;
-      transition: border-color .2s, color .2s;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.2rem, 2.2vw, 1.95rem);
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-block;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.35rem;
+      margin: 1rem 0 2.5rem;
+      transition:
+        border-color 0.2s,
+        color 0.2s;
       word-break: break-all;
     }
-    .contact-mail:hover { border-color: var(--saffron); color: var(--saffron); }
-    .contact-note { font-size: .93rem; color: var(--muted); line-height: 1.85; max-width: 380px; }
-    .soc-list { display: flex; flex-direction: column; }
+
+    .contact-mail:hover {
+      border-color: var(--saffron);
+      color: var(--saffron);
+    }
+
+    .contact-big {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.4rem, 4vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-big em {
+      color: var(--saffron);
+      font-style: italic;
+    }
+
+    .contact-note {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 400px;
+    }
+
+    .soc-list {
+      display: flex;
+      flex-direction: column;
+    }
+
     .soc-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 0; border-bottom: 1px solid var(--border);
-      text-decoration: none; color: var(--ink); transition: color .2s;
-    }
-    .soc-row:first-child { border-top: 1px solid var(--border); }
-    .soc-row:hover { color: var(--saffron); }
-    .soc-row:hover .soc-arr { transform: translate(4px,-4px); color: var(--saffron); }
-    .soc-name { font-weight: 700; font-size: .9rem; }
-    .soc-handle { font-family: 'Syne Mono', monospace; font-size: .7rem; color: var(--muted); }
-    .soc-arr { font-size: .85rem; color: var(--muted); transition: all .2s; }
-
-    footer {
-      background: var(--ink); padding: 1.8rem 3.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .ft-l { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: rgba(245,237,217,.35); }
-    .ft-l span { color: var(--saffron); font-style: italic; }
-    .ft-r { font-family: 'Syne Mono', monospace; font-size: .62rem; letter-spacing: .1em; color: rgba(245,237,217,.2); text-transform: uppercase; }
-
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
-    .reveal.on { opacity: 1; transform: translateY(0); }
-
-    .back-top {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 400;
-      width: 44px; height: 44px;
-      background: var(--ink); color: var(--cream);
-      border: none; border-radius: 2px;
-      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s, background .2s, transform .2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border);
       text-decoration: none;
+      color: var(--ink);
+      transition: color 0.2s;
     }
-    .back-top.vis { opacity: 1; pointer-events: auto; }
-    .back-top:hover { background: var(--saffron); color: var(--ink); transform: translateY(-2px); }
 
+    .soc-row:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .soc-row:hover {
+      color: var(--saffron);
+    }
+
+    .soc-row:hover .soc-arr svg {
+      transform: translate(4px, -4px);
+    }
+
+    .soc-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .soc-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: var(--cream2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .soc-row:hover .soc-icon {
+      background: rgba(212, 134, 42, 0.12);
+      border-color: rgba(212, 134, 42, 0.3);
+    }
+
+    .soc-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .soc-handle {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .soc-arr {
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+
+    .soc-arr svg {
+      transition: transform 0.2s;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      padding: 2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ft-l {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.1rem;
+      color: rgba(245, 237, 217, 0.35);
+    }
+
+    .ft-l span {
+      color: var(--saffron);
+      font-style: italic;
+    }
+
+    .ft-r {
+      font-family: "Syne Mono", monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.1em;
+      color: rgba(245, 237, 217, 0.2);
+      text-transform: uppercase;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+    }
+
+    .reveal.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* BACK TO TOP */
+    .back-top {
+      position: fixed;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 400;
+      width: 48px;
+      height: 48px;
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 0.3s,
+        background 0.2s,
+        transform 0.2s;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .back-top.vis {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .back-top:hover {
+      background: var(--saffron);
+      color: var(--ink);
+      transform: translateY(-3px);
+    }
+
+    /* HAMBURGER */
     .nav-hamburger {
       display: none;
-      flex-direction: column; gap: 5px; cursor: pointer;
-      padding: 4px; background: none; border: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+      background: none;
+      border: none;
     }
+
     .nav-hamburger span {
-      display: block; width: 22px; height: 2px;
-      background: var(--ink); transition: all .25s;
+      display: block;
+      width: 23px;
+      height: 2px;
+      background: var(--ink);
+      transition: all 0.25s;
     }
-    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     .mobile-menu {
       display: none;
-      position: fixed; top: calc(var(--ticker-h) + var(--nav-h)); left: 0; right: 0;
-      background: rgba(245,237,217,.98);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      position: fixed;
+      top: calc(var(--ticker-h) + var(--nav-h));
+      left: 0;
+      right: 0;
+      background: rgba(245, 237, 217, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       z-index: 490;
       flex-direction: column;
       padding: 1.5rem 2rem;
-      gap: .5rem;
+      gap: 0.3rem;
     }
-    .mobile-menu.open { display: flex; }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
     .mobile-menu a {
-      font-family: 'Syne Mono', monospace;
-      font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none;
-      padding: .8rem 0; border-bottom: 1px solid var(--border);
-      transition: color .2s;
+      font-family: "Syne Mono", monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
     }
-    .mobile-menu a:last-child { border-bottom: none; }
-    .mobile-menu a:hover { color: var(--saffron); }
 
-    @media(max-width:960px){
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-      .hero { 
-        padding-top: calc(var(--offset) + 2.5rem);
-        padding-left: 1.5rem; 
-        padding-right: 1.5rem; 
-        padding-bottom: 4rem;
-        grid-template-columns: 1fr; 
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--saffron);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .oss-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
-      .hero-watermark { display: none; }
-      .hero-stats { flex-direction: row; }
-      .sec { padding: 5rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .exp-layout { grid-template-columns: 1fr; }
-      .exp-sidebar { display: none; }
-      .contact-sec { grid-template-columns: 1fr; padding: 5rem 1.5rem; gap: 3rem; }
-      .oss-grid { grid-template-columns: repeat(3,1fr); }
-      .proj-scroll-wrapper { margin-left: -1.5rem; margin-right: -1.5rem; }
-      .proj-track { padding: 0.5rem 1.5rem 0.5rem; }
-      footer { padding: 1.5rem; flex-direction: column; gap: .5rem; text-align: center; }
     }
 
-    @media(max-width:600px){
-      :root { --ticker-h: 28px; }
-      .ticker-item { font-size: .62rem; }
+    @media (max-width: 960px) {
+      nav {
+        padding: 1rem 2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .hero {
+        padding: calc(var(--offset) + 2.5rem) 2rem 4rem;
+        grid-template-columns: 1fr;
+      }
+
+      .hero-watermark {
+        display: none;
+      }
+
+      .hero-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .sec {
+        padding: 5rem 2rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+      }
+
+      .exp-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .exp-sidebar {
+        display: none;
+      }
+
+      .contact-sec {
+        grid-template-columns: 1fr;
+        padding: 5rem 2rem;
+        gap: 3.5rem;
+      }
+
+      .proj-scroll-wrapper {
+        margin-left: -2rem;
+        margin-right: -2rem;
+      }
+
+      .proj-track {
+        padding: 0.5rem 2rem 0.5rem;
+      }
+
+      footer {
+        padding: 1.5rem 2rem;
+        flex-direction: column;
+        gap: 0.6rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        --ticker-h: 30px;
+      }
+
       .hero {
         padding-top: calc(var(--offset) + 1.8rem);
-        padding-bottom: 3rem;
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
       }
-      .oss-grid { grid-template-columns: 1fr 1fr; }
-      .hero-stats { display: none; }
-      .hero-name { font-size: clamp(3.5rem, 15vw, 5rem); }
-      .p-card { width: 300px; }
-      .philo-sec { padding: 6rem 1.5rem; }
-      .philo-sec::before { display: none; }
-      .exp-title { font-size: 1.55rem; }
+
+      .oss-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        display: none;
+      }
+
+      .hero-name {
+        font-size: clamp(3.8rem, 15vw, 5.5rem);
+      }
+
+      .p-card {
+        width: 310px;
+      }
+
+      .philo-sec {
+        padding: 7rem 2rem;
+      }
+
+      .sec {
+        padding: 4.5rem 1.2rem;
+      }
+
+      .contact-sec {
+        padding: 4.5rem 1.2rem;
+      }
+
+      footer {
+        padding: 1.5rem 1.2rem;
+      }
     }
 
-    @media(max-width:400px){
-      .p-card { width: 280px; }
-      .hero { padding-top: calc(var(--offset) + 1.5rem); }
+    @media (max-width: 400px) {
+      .p-card {
+        width: 285px;
+      }
+
+      .hero-name {
+        font-size: clamp(3.2rem, 13vw, 4rem);
+      }
     }
   </style>
 </head>
+
 <body>
-
-<div class="ticker-wrap">
-  <div class="ticker-label">Now</div>
-  <div class="ticker-track">
-    <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
-    <span class="ticker-item">Nepali Date Picker Library - Android · iOS · Desktop · Web</span>
-    <span class="ticker-item">Actively learning Swift & SwiftUI</span>
-    <span class="ticker-item">Publishing Libraries - Maven Central · GitHub Packages · GitLab Packages</span>
-    <span class="ticker-item">KMP Logger</span>
-    <span class="ticker-item">Writing about experiences on Medium</span>
-    <span class="ticker-item">KMP CInterop</span>
-    <span class="ticker-item">Coding by day, crafting verses by night</span>
-    <!-- duplicate for seamless loop -->
-    <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
-    <span class="ticker-item">Nepali Date Picker Library - Android · iOS · Desktop · Web</span>
-    <span class="ticker-item">Actively learning Swift & SwiftUI</span>
-    <span class="ticker-item">Publishing Libraries - Maven Central · GitHub Packages · GitLab Packages</span>
-    <span class="ticker-item">KMP Logger</span>
-    <span class="ticker-item">Writing about experiences on Medium</span>
-    <span class="ticker-item">KMP CInterop</span>
-    <span class="ticker-item">Coding by day, crafting verses by night</span>
-  </div>
-</div>
-
-<nav>
-  <div class="nav-logo">Shiva <em>Thapa</em></div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#oss">Open Source</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div style="display:flex;align-items:center;gap:1rem;">
-    <a href="mailto:query.shivathapaa.dev@gmail.com" class="nav-cta">Hire Me →</a>
-    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="mob-link">About</a>
-  <a href="#projects" class="mob-link">Projects</a>
-  <a href="#experience" class="mob-link">Experience</a>
-  <a href="#oss" class="mob-link">Open Source</a>
-  <a href="#contact" class="mob-link">Contact</a>
-</div>
-
-<section class="hero" id="home">
-  <div class="hero-watermark">code.</div>
-  <div>
-    <div class="hero-eyebrow">
-      <div class="alive-dot"></div>
-      <span class="hero-eyebrow-text">Open to opportunities · Kathmandu, Nepal</span>
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-label">Now</div>
+    <div class="ticker-viewport">
+      <div class="ticker-track" id="tickerTrack">
+        <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
+        <span class="ticker-item">Nepali Date Picker · Android · iOS · Desktop · Web</span>
+        <span class="ticker-item">Actively learning Swift &amp; SwiftUI</span>
+        <span class="ticker-item">Publishing Libraries · Maven Central · GitHub Packages · GitLab
+          Packages</span>
+        <span class="ticker-item">KMP Logger - lightweight structured logging</span>
+        <span class="ticker-item">Writing about experiences on Medium</span>
+        <span class="ticker-item">KMP CInterop</span>
+        <span class="ticker-item">Coding by day, crafting verses by night</span>
+        <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
+        <span class="ticker-item">Nepali Date Picker · Android · iOS · Desktop · Web</span>
+        <span class="ticker-item">Actively learning Swift &amp; SwiftUI</span>
+        <span class="ticker-item">Publishing Libraries · Maven Central · GitHub Packages · GitLab
+          Packages</span>
+        <span class="ticker-item">KMP Logger - lightweight structured logging</span>
+        <span class="ticker-item">Writing about experiences on Medium</span>
+        <span class="ticker-item">KMP CInterop</span>
+        <span class="ticker-item">Coding by day, crafting verses by night</span>
+      </div>
     </div>
-    <h1 class="hero-name">
-      Shiva
-      <span class="hollow">Thapa</span>
-    </h1>
-    <div class="hero-role-row">
-      <p class="hero-role">
-        <span class="spin-word" id="spinWord">KMP Developer</span>
-        &mdash; building things that last
+  </div>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="#home" class="nav-logo">Shiva <em>Thapa</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#oss">Open Source</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="mailto:query.shivathapaa.dev@gmail.com" class="nav-cta">
+        Hire Me
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mob-link">About</a>
+    <a href="#projects" class="mob-link">Projects</a>
+    <a href="#experience" class="mob-link">Experience</a>
+    <a href="#oss" class="mob-link">Open Source</a>
+    <a href="#contact" class="mob-link">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-watermark" aria-hidden="true">code.</div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="alive-dot" aria-hidden="true"></div>
+        <span class="hero-eyebrow-text">Open to opportunities</span>
+      </div>
+      <h1 class="hero-name">
+        Shiva
+        <span class="hollow">Thapa</span>
+      </h1>
+      <div class="hero-divider" aria-hidden="true"></div>
+      <div class="hero-role-row">
+        <p class="hero-role">
+          <span class="spin-word" id="spinWord">KMP Developer</span>
+          &mdash; building things that last
+        </p>
+      </div>
+      <p class="hero-bio">
+        Kotlin Multiplatform developer crafting apps that feel native on
+        <strong>Android & iOS</strong>. Open source contributor. Poet at
+        heart. Currently expanding into native iOS development - and genuinely
+        loving it.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-fill">
+          See my work
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="btn-ghost">
+          GitHub
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-block">
+        <div class="stat-n">3+</div>
+        <div class="stat-l">OSS Libraries</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-n">5+</div>
+        <div class="stat-l">Internal Libraries</div>
+      </div>
+      <div class="stat-block dark">
+        <div class="stat-n">∞</div>
+        <div class="stat-l">Lines of Kotlin</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE BAR -->
+  <div class="marquee-bar">
+    <div class="marquee-inner" id="marqueeInner">
+      <span class="mq-item hi">Kotlin<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Jetpack Compose<span class="mq-sep">◆</span></span>
+      <span class="mq-item hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
+      <span class="mq-item sage">Swift<span class="mq-sep">◆</span></span>
+      <span class="mq-item sage">SwiftUI<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Compose Multiplatform<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Ktor<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Koin<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Room<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Firebase<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitHub Actions<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Maven Central<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitHub Packages<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitLab Packages<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Hilt<span class="mq-sep">◆</span></span>
+      <span class="mq-item">ObjectBox<span class="mq-sep">◆</span></span>
+      <span class="mq-item hi">Kotlin<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Jetpack Compose<span class="mq-sep">◆</span></span>
+      <span class="mq-item hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
+      <span class="mq-item sage">Swift<span class="mq-sep">◆</span></span>
+      <span class="mq-item sage">SwiftUI<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Compose Multiplatform<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Ktor<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Koin<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Room<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Firebase<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitHub Actions<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Maven Central<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitHub Packages<span class="mq-sep">◆</span></span>
+      <span class="mq-item">GitLab Packages<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Hilt<span class="mq-sep">◆</span></span>
+      <span class="mq-item">ObjectBox<span class="mq-sep">◆</span></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="sec about-sec" id="about">
+    <div class="ghost-n" aria-hidden="true">01</div>
+    <div class="sec-inner">
+      <div class="eyebrow">About</div>
+      <h2 class="sec-title reveal">
+        The developer<br /><em style="
+              font-family: &quot;Cormorant Garamond&quot;, serif;
+              font-weight: 300;
+              color: var(--muted);
+            ">behind the code</em>
+      </h2>
+      <div class="about-grid">
+        <div>
+          <p class="about-p reveal">
+            I'm <strong>Shiva Thapa</strong>, a Kotlin Multiplatform developer
+            based in Kathmandu, Nepal. I specialize in building apps that feel
+            truly native on both Android and iOS - sharing business logic
+            through KMP and UI through CMP while crafting platform-specific
+            UIs where they genuinely delight users.
+          </p>
+          <p class="about-p reveal">
+            My day looks like: leading mobile development at
+            <strong>Geokrishi</strong>, owning everything from architecture
+            decisions and feature delivery to Play Console releases and
+            Crashlytics monitoring. I'm also the bridge between Android, iOS,
+            and backend teams - the person who makes sure everyone speaks the
+            same language.
+          </p>
+          <p class="about-p reveal">
+            Outside of work, I publish
+            <strong>open-source KMP libraries</strong> on Maven Central,
+            GitHub Packages, and GitLab Packages, write about experiences on
+            Medium, and mentor developers working with multiplatform.
+          </p>
+          <div class="ios-banner reveal">
+            <div class="ios-live">
+              <div class="ios-live-dot"></div>
+              Actively Learning
+            </div>
+            <h4>Native iOS Development</h4>
+            <p>
+              Making real, consistent progress with Swift and SwiftUI. The
+              natural complement to KMP - understanding the platform deeply so
+              the shared code integrates seamlessly and the iOS experience
+              feels genuinely native.
+            </p>
+            <div class="ios-chips">
+              <span class="ios-chip">Swift</span>
+              <span class="ios-chip">SwiftUI</span>
+              <span class="ios-chip">Xcode</span>
+              <span class="ios-chip">iOS SDK</span>
+            </div>
+          </div>
+        </div>
+        <div class="skills-list reveal">
+          <div class="skill-row">
+            <div class="skill-row-label">Languages</div>
+            <div class="chips">
+              <span class="chip ink">Kotlin</span>
+              <span class="chip ios-c">Swift</span>
+              <span class="chip">Python</span>
+              <span class="chip">Java</span>
+              <span class="chip">JavaScript</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-label">UI &amp; Frameworks</div>
+            <div class="chips">
+              <span class="chip ink">Jetpack Compose</span>
+              <span class="chip ink">Compose Multiplatform</span>
+              <span class="chip ios-c">SwiftUI</span>
+              <span class="chip">Ktor</span>
+              <span class="chip">Retrofit</span>
+              <span class="chip">Koin</span>
+              <span class="chip">Hilt</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-label">Data &amp; Storage</div>
+            <div class="chips">
+              <span class="chip">Room</span>
+              <span class="chip">ObjectBox</span>
+              <span class="chip">Firebase</span>
+              <span class="chip">DataStore</span>
+              <span class="chip">MySQL</span>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-label">DevOps &amp; Publishing</div>
+            <div class="chips">
+              <span class="chip">GitHub Actions</span>
+              <span class="chip">GitLab CI</span>
+              <span class="chip">Play Console</span>
+              <span class="chip">Maven Central</span>
+              <span class="chip">GitHub Packages</span>
+              <span class="chip">GitLab Packages</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philo-sec">
+    <div class="philo-bg-circle c1" aria-hidden="true"></div>
+    <div class="philo-bg-circle c2" aria-hidden="true"></div>
+    <p class="philo-quote reveal">
+      "When fingers dance on keys, I code with all my might<br />
+      But when a pen is in my hand, I craft
+      <em>verses through the night.</em>"
+    </p>
+    <div class="philo-rule"></div>
+    <p class="philo-by">Shiva Thapa · Developer &amp; Poet · Kathmandu</p>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="sec proj-sec" id="projects">
+    <div class="ghost-n" aria-hidden="true">02</div>
+    <div class="sec-inner">
+      <div class="proj-header-row">
+        <div>
+          <div class="eyebrow">Projects</div>
+          <h2 class="sec-title reveal">Things I've shipped</h2>
+        </div>
+        <div>
+          <p class="proj-count reveal">6 Projects</p>
+          <div class="drag-hint reveal">
+            <div class="drag-line"></div>
+            Drag to explore
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="proj-scroll-wrapper">
+      <div class="proj-scroll-outer" id="pScroll">
+        <div class="proj-track">
+          <a href="https://klibs.io/project/shivathapaa/Nepali-Date-Picker" target="_blank" rel="noopener"
+            class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">01</div>
+              <div class="p-icon">🗓️</div>
+              <div class="p-name">Nepali Date Picker</div>
+              <div class="p-sub">
+                Material3 · KMP · Android · iOS · Desktop · Web
+              </div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                A fully featured Material3-aligned Nepali Date Picker for
+                Kotlin Multiplatform. Handles Nepali–Gregorian date conversion
+                elegantly with a platform-native feel across all targets.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
+              <div class="p-tags">
+                <span class="ptag s">Maven Central</span><span class="ptag g">Klibs.io</span>
+              </div>
+            </div>
+            <div class="p-card-link">
+              View on klibs.io
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+          <a href="https://klibs.io/project/shivathapaa/KMP-Logger" target="_blank" rel="noopener" class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">02</div>
+              <div class="p-icon">📋</div>
+              <div class="p-name">KMP Logger</div>
+              <div class="p-sub">
+                Structured Logging · Kotlin Multiplatform
+              </div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                A lightweight, structured logging library built natively for
+                Kotlin Multiplatform. Clean API, multiple platform targets,
+                and a design philosophy that feels at home in any KMP project.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip km"></span>Kotlin / KMP</span>
+              <div class="p-tags">
+                <span class="ptag s">Maven Central</span><span class="ptag g">Klibs.io</span>
+              </div>
+            </div>
+            <div class="p-card-link">
+              View on klibs.io
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.tallyo.tallyo" target="_blank" rel="noopener"
+            class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">03</div>
+              <div class="p-icon">🎲</div>
+              <div class="p-name">Tallyo</div>
+              <div class="p-sub">Game Utility · Play Store · KMP · CMP</div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                A multifunctional game companion - score tracking, chess timer
+                with Fischer increment, dice, coin flip, random numbers, and a
+                lap-enabled stopwatch. All in one delightful app.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
+              <div class="p-tags"><span class="ptag d">Play Store</span></div>
+            </div>
+            <div class="p-card-link">
+              View on Play Store
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+          <a href="https://pypi.org/project/nepali-calendar-utils/" target="_blank" rel="noopener" class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">04</div>
+              <div class="p-icon">🗓</div>
+              <div class="p-name">Nepali Calendar Utils</div>
+              <div class="p-sub">Python · PyPI · Date Conversion</div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                Python package providing robust Nepali–Gregorian date
+                utilities. Clean API, well-tested, and PyPI published - ideal
+                for any Python project needing localized Nepali date handling.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip py"></span>Python</span>
+              <div class="p-tags"><span class="ptag s">PyPI</span></div>
+            </div>
+            <div class="p-card-link">
+              View on PyPI
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+          <a href="https://github.com/shivathapaa/Music-Tag-Editor-and-Music-Manager" target="_blank" rel="noopener"
+            class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">05</div>
+              <div class="p-icon">🎵</div>
+              <div class="p-name">Music Tag Editor</div>
+              <div class="p-sub">Desktop · Metadata · Music Manager</div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                Desktop application for seamless music organization and
+                metadata editing. Manage large libraries with ease - edit
+                tags, organize collections, keep your music perfectly labeled.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip py"></span>Python / tkinter</span>
+              <div class="p-tags"><span class="ptag g">★ 8</span></div>
+            </div>
+            <div class="p-card-link">
+              View on GitHub
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+          <a href="https://github.com/shivathapaa/SocialDemoProjects" target="_blank" rel="noopener" class="p-card">
+            <div class="p-card-top">
+              <div class="p-num">06</div>
+              <div class="p-icon">🧪</div>
+              <div class="p-name">Projects Demo Lab</div>
+              <div class="p-sub">Education · KMP Patterns · CMP</div>
+            </div>
+            <div class="p-card-mid">
+              <p class="p-desc">
+                A living collection of Android & KMP tips, tricks,
+                workarounds, and educational code. Helps developers navigate
+                the real-world complexity of Android and multiplatform
+                development.
+              </p>
+            </div>
+            <div class="p-card-bot">
+              <span class="p-lang"><span class="pip k"></span>Kotlin / KMP / CMP</span>
+              <div class="p-tags"><span class="ptag g">★ 5</span></div>
+            </div>
+            <div class="p-card-link">
+              View on GitHub
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="sec exp-sec" id="experience">
+    <div class="ghost-n" aria-hidden="true">03</div>
+    <div class="sec-inner">
+      <div class="eyebrow">Experience</div>
+      <h2 class="sec-title reveal">Where I've worked</h2>
+      <div class="exp-layout">
+        <div class="exp-sidebar" id="expSide">
+          <div class="exp-side-item on" data-target="exp-0">
+            <div class="exp-dot"></div>
+            <div>
+              <div class="exp-side-lbl">Geokrishi Farm</div>
+              <span class="exp-side-meta">May 2024 – Present</span>
+            </div>
+          </div>
+          <div class="exp-side-item" data-target="exp-1">
+            <div class="exp-dot"></div>
+            <div>
+              <div class="exp-side-lbl">Geokrishi Global</div>
+              <span class="exp-side-meta">Apr 2025 – Present</span>
+            </div>
+          </div>
+        </div>
+        <div class="exp-entries" id="expList">
+          <div class="exp-entry reveal" id="exp-0">
+            <div class="exp-header">
+              <div class="exp-header-left">
+                <div class="exp-period">May 2024 - Present</div>
+                <div class="exp-title">
+                  Android Developer &amp; KMP / CMP Lead
+                </div>
+                <div class="exp-co">
+                  Geokrishi Farm Application · Pathway Technologies ·
+                  Kathmandu, Nepal
+                </div>
+              </div>
+              <a href="https://play.google.com/store/apps/details?id=com.pathway.geokrishi_farm" target="_blank"
+                rel="noopener" class="exp-link">
+                Play Store
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+            <ul class="exp-pts">
+              <li>
+                Leading Android development while progressively adapting KMP
+                for iOS integration
+              </li>
+              <li>
+                End-to-end ownership of Google Play Console - builds,
+                releases, and CI/CD pipelines
+              </li>
+              <li>
+                Monitoring app stability through Crashlytics and driving
+                continuous performance optimizations
+              </li>
+              <li>
+                Owning AdMob integration and monetization strategy for
+                meaningful revenue growth
+              </li>
+              <li>
+                Primary liaison between Android, iOS, and backend engineering
+                - keeping teams aligned and unblocked
+              </li>
+            </ul>
+          </div>
+          <div class="exp-entry reveal" id="exp-1">
+            <div class="exp-header">
+              <div class="exp-header-left">
+                <div class="exp-period">Apr 2025 - Present</div>
+                <div class="exp-title">KMP / CMP Lead Developer</div>
+                <div class="exp-co">
+                  GeoKrishi Global Application · Pathway Technologies ·
+                  Kathmandu, Nepal
+                </div>
+              </div>
+              <!-- <a href="https://play.google.com/store/apps/details?id=com.pathway.geokrishi_global" target="_blank"
+                rel="noopener" class="exp-link">
+                Play Store
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a> -->
+            </div>
+            <ul class="exp-pts">
+              <li>
+                Leading mobile development with KMP for true cross-platform
+                delivery on Android and iOS
+              </li>
+              <li>
+                Overseeing feature roadmap delivery and actively mentoring the
+                mobile team
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPEN SOURCE -->
+  <section class="sec oss-sec" id="oss">
+    <div class="ghost-n" aria-hidden="true">04</div>
+    <div class="sec-inner">
+      <div class="eyebrow">Open Source</div>
+      <h2 class="sec-title reveal">
+        Where you'll find<br /><em style="
+              font-family: &quot;Cormorant Garamond&quot;, serif;
+              font-weight: 300;
+              color: var(--muted);
+            ">my published work</em>
+      </h2>
+      <div class="oss-grid reveal">
+        <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="oss-cell">
+          <div class="oss-em-wrap">✍️</div>
+          <div class="oss-body">
+            <div class="oss-name">Medium</div>
+            <div class="oss-desc">
+              Technical writing on KMP, Android &amp; Kotlin - sharing
+              patterns, gotchas, and lessons learnt.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">Articles &amp; Guides</span><span class="oss-arr"><svg width="16" height="16"
+                viewBox="0 0 16 16" fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+        <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
+          class="oss-cell">
+          <div class="oss-em-wrap">📦</div>
+          <div class="oss-body">
+            <div class="oss-name">Maven Central</div>
+            <div class="oss-desc">
+              Public KMP libraries published under
+              <code style="font-size: 0.68rem; color: inherit">io.github.shivathapaa</code>
+              - production-ready and versioned.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">KMP Libraries</span><span class="oss-arr"><svg width="16" height="16"
+                viewBox="0 0 16 16" fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+        <a href="https://github.com/shivathapaa?tab=packages" target="_blank" rel="noopener" class="oss-cell">
+          <div class="oss-em-wrap">🐙</div>
+          <div class="oss-body">
+            <div class="oss-name">GitHub Packages</div>
+            <div class="oss-desc">
+              Internal and experimental libraries distributed via GitHub
+              Package Registry.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">Package Registry</span><span class="oss-arr"><svg width="16" height="16"
+                viewBox="0 0 16 16" fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+        <a href="https://gitlab.com/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
+          <div class="oss-em-wrap">🦊</div>
+          <div class="oss-body">
+            <div class="oss-name">GitLab Packages</div>
+            <div class="oss-desc">
+              Internal library distribution via GitLab registry for enterprise
+              and team-scoped projects.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">Package Registry</span><span class="oss-arr"><svg width="16" height="16"
+                viewBox="0 0 16 16" fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+        <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
+          <div class="oss-em-wrap">🔗</div>
+          <div class="oss-body">
+            <div class="oss-name">klibs.io</div>
+            <div class="oss-desc">
+              Listed KMP library author on the community multiplatform library
+              index.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">KMP Index</span><span class="oss-arr"><svg width="16" height="16" viewBox="0 0 16 16"
+                fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+        <a href="https://pypi.org/user/shivathapaa/" target="_blank" rel="noopener" class="oss-cell">
+          <div class="oss-em-wrap">🐍</div>
+          <div class="oss-body">
+            <div class="oss-name">PyPI</div>
+            <div class="oss-desc">
+              Nepali date utilities for Python developers - clean API,
+              well-tested, and actively maintained.
+            </div>
+          </div>
+          <div class="oss-footer">
+            <span class="oss-tag">Python Packages</span><span class="oss-arr"><svg width="16" height="16"
+                viewBox="0 0 16 16" fill="none">
+                <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-sec" id="contact">
+    <div class="reveal">
+      <div class="eyebrow contact-eyebrow">Contact</div>
+      <h2 class="contact-big">Let's build<br /><em>something great.</em></h2>
+      <a href="mailto:query.shivathapaa.dev@gmail.com" class="contact-mail">
+        <span>query.shivathapaa.dev@gmail.com</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </a>
+      <p class="contact-note">
+        Whether you're building a KMP project, want to collaborate on open
+        source, or just want to say hello - I'd love to hear from you.
       </p>
     </div>
-    <p class="hero-bio">
-      Kotlin Multiplatform developer crafting apps that feel native on <strong>Android & iOS</strong>. Open source contributor. Poet at heart. Currently expanding into native iOS development - and genuinely loving it.
-    </p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn-fill">See my work ↓</a>
-      <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="btn-ghost">GitHub ↗</a>
-    </div>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-block">
-      <div class="stat-n">3+</div>
-      <div class="stat-l">OSS Libraries</div>
-    </div>
-    <div class="stat-block">
-      <div class="stat-n">5+</div>
-      <div class="stat-l">Internal Libraries</div>
-    </div>
-    <div class="stat-block dark">
-      <div class="stat-n">∞</div>
-      <div class="stat-l">Lines of Kotlin</div>
-    </div>
-  </div>
-</section>
-
-<div class="marquee-bar">
-  <div class="marquee-inner">
-    <span class="mq-item hi">Kotlin<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Jetpack Compose<span class="mq-sep">◆</span></span>
-    <span class="mq-item hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
-    <span class="mq-item sage">Swift<span class="mq-sep">◆</span></span>
-    <span class="mq-item sage">SwiftUI<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Compose Multiplatform<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Ktor<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Koin<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Room<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Firebase<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitHub Actions<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Maven Central<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitHub Packages<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitLab Packages<span class="mq-sep">◆</span></span>
-    <span class="mq-item hi">Kotlin<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Jetpack Compose<span class="mq-sep">◆</span></span>
-    <span class="mq-item hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
-    <span class="mq-item sage">Swift<span class="mq-sep">◆</span></span>
-    <span class="mq-item sage">SwiftUI<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Compose Multiplatform<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Ktor<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Koin<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Room<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Firebase<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitHub Actions<span class="mq-sep">◆</span></span>
-    <span class="mq-item">Maven Central<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitHub Packages<span class="mq-sep">◆</span></span>
-    <span class="mq-item">GitLab Packages<span class="mq-sep">◆</span></span>
-  </div>
-</div>
-
-<section class="sec about-sec" id="about">
-  <div class="ghost-n">01</div>
-  <div class="sec-inner">
-    <div class="eyebrow">About</div>
-    <h2 class="sec-title reveal">The developer<br /><em style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">behind the code</em></h2>
-    <div class="about-grid">
-      <div>
-        <p class="about-p reveal">
-          I'm <strong>Shiva Thapa</strong>, a Kotlin Multiplatform developer based in Kathmandu, Nepal. I specialize in building apps that feel truly native on both Android and iOS - sharing business logic through KMP and UI through CMP while crafting platform-specific UIs where necessary that genuinely delight users.
-        </p>
-        <p class="about-p reveal">
-          My day looks like: leading mobile development at <strong>Geokrishi</strong>, owning everything from architecture decisions and feature delivery to Play Console releases and Crashlytics monitoring. I'm also the bridge between Android, iOS, and backend teams - the person who makes sure everyone speaks the same language.
-        </p>
-        <p class="about-p reveal">
-          Outside of work, I publish <strong>open-source KMP libraries</strong> on Maven Central, GitHub Packages, and GitLab Packages, write about experiences on Medium, and mentor developers working with multiplatform.
-        </p>
-        <div class="ios-banner reveal">
-          <div class="ios-live"><div class="ios-live-dot"></div>Actively Learning</div>
-          <h4>Native iOS Development</h4>
-          <p>Making real, consistent progress with Swift and SwiftUI. The natural complement to KMP - understanding the platform deeply so the shared code integrates seamlessly and the iOS experience feels genuinely native.</p>
-          <div class="ios-chips">
-            <span class="ios-chip">Swift</span>
-            <span class="ios-chip">SwiftUI</span>
-            <span class="ios-chip">Xcode</span>
-            <span class="ios-chip">iOS SDK</span>
+    <div class="soc-list reveal">
+      <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+        <div class="soc-left">
+          <div class="soc-icon">🐙</div>
+          <div>
+            <div class="soc-name">GitHub</div>
+            <div class="soc-handle">@shivathapaa</div>
           </div>
         </div>
-      </div>
-      <div class="skills-list reveal">
-        <div class="skill-row">
-          <div class="skill-row-label">Languages</div>
-          <div class="chips">
-            <span class="chip ink">Kotlin</span>
-            <span class="chip ios-c">Swift</span>
-            <span class="chip">Python</span>
-            <span class="chip">Java</span>
-            <span class="chip">JavaScript</span>
-          </div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-label">UI & Frameworks</div>
-          <div class="chips">
-            <span class="chip ink">Jetpack Compose</span>
-            <span class="chip ink">Compose Multiplatform</span>
-            <span class="chip ios-c">SwiftUI</span>
-            <span class="chip">Ktor</span>
-            <span class="chip">Retrofit</span>
-            <span class="chip">Koin</span>
-            <span class="chip">Hilt</span>
-          </div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-label">Data & Storage</div>
-          <div class="chips">
-            <span class="chip">Room</span>
-            <span class="chip">ObjectBox</span>
-            <span class="chip">Firebase</span>
-            <span class="chip">DataStore</span>
-            <span class="chip">MySQL</span>
-          </div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-row-label">DevOps & Publishing</div>
-          <div class="chips">
-            <span class="chip">GitHub Actions</span>
-            <span class="chip">GitLab CI</span>
-            <span class="chip">Play Console</span>
-            <span class="chip">Maven Central</span>
-            <span class="chip">GitHub Packages</span>
-            <span class="chip">GitLab Packages</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="philo-sec">
-  <p class="philo-quote reveal">
-    "When fingers dance on keys, I code with all my might<br />
-    But when a pen is in my hand, I craft <em>verses through the night.</em>"
-  </p>
-  <div class="philo-rule"></div>
-  <p class="philo-by">Shiva Thapa · Developer &amp; Poet · Kathmandu</p>
-</section>
-
-<section class="sec proj-sec" id="projects">
-  <div class="ghost-n">02</div>
-  <div class="sec-inner">
-    <div class="eyebrow">Projects</div>
-    <h2 class="sec-title reveal">Things I've shipped</h2>
-    <div class="drag-hint reveal">
-      <div class="drag-line"></div>
-      Drag to explore →
-    </div>
-  </div>
-
-  <div class="proj-scroll-wrapper">
-    <div class="proj-scroll-outer" id="pScroll">
-      <div class="proj-track">
-
-        <a href="https://klibs.io/project/shivathapaa/Nepali-Date-Picker" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">01</div>
-            <div class="p-icon">📅</div>
-            <div class="p-name">Nepali Date Picker</div>
-            <div class="p-sub">Material3 · KMP · Android · iOS · Desktop · Web</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">A fully featured Material3-aligned Nepali Date Picker for Kotlin Multiplatform. Handles Nepali-Gregorian date conversion elegantly with a platform-native feel across all targets.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
-            <div class="p-tags"><span class="ptag s">Maven Central</span><span class="ptag g">Klibs.io</span></div>
-          </div>
-        </a>
-
-        <a href="https://klibs.io/project/shivathapaa/KMP-Logger" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">02</div>
-            <div class="p-icon">📋</div>
-            <div class="p-name">KMP Logger</div>
-            <div class="p-sub">Structured Logging · Kotlin Multiplatform</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">A lightweight, structured logging library built natively for Kotlin Multiplatform. Clean API, multiple platform targets, and a design philosophy that feels at home in any KMP project.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip km"></span>Kotlin / KMP</span>
-            <div class="p-tags"><span class="ptag s">Maven Central</span><span class="ptag g">Klibs.io</span></div>
-          </div>
-        </a>
-
-        <a href="https://play.google.com/store/apps/details?id=com.tallyo.tallyo" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">03</div>
-            <div class="p-icon">🎲</div>
-            <div class="p-name">Tallyo</div>
-            <div class="p-sub">Game Utility · Play Store · KMP · CMP</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">A multifunctional game companion - score tracking, chess timer with Fischer increment, dice, coin flip, random numbers, and a lap-enabled stopwatch. All in one delightful app.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
-            <div class="p-tags"><span class="ptag d">Play Store</span></div>
-          </div>
-        </a>
-
-        <a href="https://pypi.org/project/nepali-calendar-utils/" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">04</div>
-            <div class="p-icon">🗓</div>
-            <div class="p-name">Nepali Calendar Utils</div>
-            <div class="p-sub">Python · PyPI · Date Conversion</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">Python package providing robust Nepali-Gregorian date utilities. Clean API, well-tested, and PyPI published - ideal for any Python project needing localized Nepali date handling.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip py"></span>Python</span>
-            <div class="p-tags"><span class="ptag s">PyPI</span></div>
-          </div>
-        </a>
-
-        <a href="https://github.com/shivathapaa/Music-Tag-Editor-and-Music-Manager" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">05</div>
-            <div class="p-icon">🎵</div>
-            <div class="p-name">Music Tag Editor</div>
-            <div class="p-sub">Desktop · Metadata · Music Manager</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">Desktop application for seamless music organization and metadata editing. Manage large libraries with ease - edit tags, organize collections, keep your music perfectly labeled.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip py"></span>Python / tkinter</span>
-            <div class="p-tags"><span class="ptag g">★ 8</span></div>
-          </div>
-        </a>
-
-        <a href="https://github.com/shivathapaa/SocialDemoProjects" target="_blank" rel="noopener" class="p-card">
-          <div class="p-card-top">
-            <div class="p-num">06</div>
-            <div class="p-icon">🧪</div>
-            <div class="p-name">Projects Demo Lab</div>
-            <div class="p-sub">Education · KMP Patterns · CMP</div>
-          </div>
-          <div class="p-card-mid"><p class="p-desc">A living collection of Android & KMP tips, tricks, workarounds, and educational code. Helps developers navigate the real-world complexity of Android and multiplatform development.</p></div>
-          <div class="p-card-bot">
-            <span class="p-lang"><span class="pip k"></span>Kotlin / KMP / CMP</span>
-            <div class="p-tags"><span class="ptag g">★ 5</span></div>
-          </div>
-        </a>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec exp-sec" id="experience">
-  <div class="ghost-n">03</div>
-  <div class="sec-inner">
-    <div class="eyebrow">Experience</div>
-    <h2 class="sec-title reveal">Where I've worked</h2>
-    <div class="exp-layout">
-      <div class="exp-sidebar" id="expSide">
-        <div class="exp-side-item on" data-target="exp-0">
-          <div class="exp-dot"></div>
-          <div class="exp-side-lbl">Geokrishi Farm App</div>
-        </div>
-        <div class="exp-side-item" data-target="exp-1">
-          <div class="exp-dot"></div>
-          <div class="exp-side-lbl">Geokrishi Global App</div>
-        </div>
-      </div>
-      <div class="exp-entries" id="expList">
-        <div class="exp-entry reveal" id="exp-0">
-          <div class="exp-period">May 2024 - Present</div>
-          <div class="exp-title">Android Developer / KMP / CMP Developer (Lead)</div>
-          <div class="exp-co">Geokrishi Farm Application · Pathway Technologies · Kathmandu, Nepal</div>
-          <ul class="exp-pts">
-            <li>Leading Android development while progressively adapting KMP for iOS integration</li>
-            <li>End-to-end ownership of Google Play Console - builds, releases, CI/CD pipelines</li>
-            <li>Monitoring app stability through Crashlytics and driving continuous performance optimizations</li>
-            <li>Owning AdMob integration and monetization strategy for meaningful revenue growth</li>
-            <li>Primary liaison between Android, iOS, and backend engineering - keeping teams aligned</li>
-          </ul>
-        </div>
-        <div class="exp-entry reveal" id="exp-1">
-          <div class="exp-period">Apr 2025 - Present</div>
-          <div class="exp-title">KMP / CMP Developer (Lead)</div>
-          <div class="exp-co">GeoKrishi Global Application · Pathway Technologies · Kathmandu, Nepal</div>
-          <ul class="exp-pts">
-            <li>Leading mobile development with KMP for true cross-platform delivery on Android and iOS</li>
-            <li>Overseeing feature roadmap delivery and actively mentoring the mobile team</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec oss-sec" id="oss">
-  <div class="ghost-n">04</div>
-  <div class="sec-inner">
-    <div class="eyebrow">Open Source</div>
-    <h2 class="sec-title reveal">Where you'll find<br/><em style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">my published work</em></h2>
-    <div class="oss-grid reveal">
-            <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">✍️</div>
-        <div class="oss-name">Medium</div>
-        <div class="oss-desc">Technical writing on KMP, Android & Kotlin</div>
-        <span class="oss-arr">↗</span>
+        <span class="soc-arr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></span>
       </a>
-      <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">📦</div>
-        <div class="oss-name">Maven Central</div>
-        <div class="oss-desc">Public KMP libraries under io.github.shivathapaa</div>
-        <span class="oss-arr">↗</span>
+      <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
+        <div class="soc-left">
+          <div class="soc-icon">💼</div>
+          <div>
+            <div class="soc-name">LinkedIn</div>
+            <div class="soc-handle">in/shivathapaa</div>
+          </div>
+        </div>
+        <span class="soc-arr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></span>
       </a>
-      <a href="https://github.com/shivathapaa?tab=packages" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">🐙</div>
-        <div class="oss-name">GitHub Packages</div>
-        <div class="oss-desc">Internal libraries via GitHub Package Registry</div>
-        <span class="oss-arr">↗</span>
+      <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
+        <div class="soc-left">
+          <div class="soc-icon">✍️</div>
+          <div>
+            <div class="soc-name">Medium</div>
+            <div class="soc-handle">@shivathapaa</div>
+          </div>
+        </div>
+        <span class="soc-arr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></span>
       </a>
-      <a href="https://gitlab.com/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">🦊</div>
-        <div class="oss-name">GitLab Packages</div>
-        <div class="oss-desc">Internal library distribution via GitLab registry</div>
-        <span class="oss-arr">↗</span>
+      <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
+        class="soc-row">
+        <div class="soc-left">
+          <div class="soc-icon">📦</div>
+          <div>
+            <div class="soc-name">Maven Central</div>
+            <div class="soc-handle">io.github.shivathapaa</div>
+          </div>
+        </div>
+        <span class="soc-arr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></span>
       </a>
-      <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">🔗</div>
-        <div class="oss-name">klibs.io</div>
-        <div class="oss-desc">Listed KMP library author on the multiplatform index</div>
-        <span class="oss-arr">↗</span>
-      </a>
-      <a href="https://pypi.org/user/shivathapaa/" target="_blank" rel="noopener" class="oss-cell">
-        <div class="oss-em">🐍</div>
-        <div class="oss-name">PyPI</div>
-        <div class="oss-desc">Nepali date utilities for Python</div>
-        <span class="oss-arr">↗</span>
+      <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+        <div class="soc-left">
+          <div class="soc-icon">🔗</div>
+          <div>
+            <div class="soc-name">klibs.io</div>
+            <div class="soc-handle">author/shivathapaa</div>
+          </div>
+        </div>
+        <span class="soc-arr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 14L14 2M14 2H6M14 2V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></span>
       </a>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="contact-sec" id="contact">
-  <div class="reveal">
-    <div class="eyebrow contact-eyebrow">Contact</div>
-    <h2 class="sec-title">Let's build<br/><em style="font-family:'Cormorant Garamond',serif;color:var(--saffron)">something great.</em></h2>
-    <a href="mailto:query.shivathapaa.dev@gmail.com" class="contact-mail">query.shivathapaa.dev@gmail.com ↗</a>
-    <p class="contact-note">Whether you're building a KMP project, want to collaborate on open source, or just want to say hello - I'd love to hear from you.</p>
-  </div>
-  <div class="soc-list reveal">
-    <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-      <div><div class="soc-name">GitHub</div><div class="soc-handle">@shivathapaa</div></div>
-      <span class="soc-arr">↗</span>
-    </a>
-    <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
-      <div><div class="soc-name">LinkedIn</div><div class="soc-handle">in/shivathapaa</div></div>
-      <span class="soc-arr">↗</span>
-    </a>
-    <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
-      <div><div class="soc-name">Medium</div><div class="soc-handle">@shivathapaa</div></div>
-      <span class="soc-arr">↗</span>
-    </a>
-    <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener" class="soc-row">
-      <div><div class="soc-name">Maven Central</div><div class="soc-handle">io.github.shivathapaa</div></div>
-      <span class="soc-arr">↗</span>
-    </a>
-    <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-      <div><div class="soc-name">klibs.io</div><div class="soc-handle">author/shivathapaa</div></div>
-      <span class="soc-arr">↗</span>
-    </a>
-  </div>
-</section>
+  <footer>
+    <div class="ft-l">Shiva <span>Thapa</span> · KMP Developer</div>
+    <div class="ft-r">shivathapaa.github.io · Kathmandu, Nepal · 2026</div>
+  </footer>
 
-<footer>
-  <div class="ft-l">Shiva <span>Thapa</span> · KMP Developer</div>
-  <div class="ft-r">shivathapaa.github.io · Kathmandu, Nepal · 2026</div>
-</footer>
+  <!-- BACK TO TOP -->
+  <a href="#home" class="back-top" id="backTop" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M9 15V3M4 8l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+        stroke-linejoin="round" />
+    </svg>
+  </a>
 
-<a href="#home" class="back-top" id="backTop" aria-label="Back to top">↑</a>
+  <script>
+    const roles = [
+      "KMP / CMP Developer",
+      "Android Engineer",
+      "iOS Learner",
+      "OSS Author",
+      "Kotlin Enthusiast",
+      "Multiplatform Builder",
+    ];
+    let ri = 0;
+    const sw = document.getElementById("spinWord");
+    setInterval(() => {
+      sw.style.opacity = "0";
+      sw.style.transform = "translateY(10px)";
+      setTimeout(() => {
+        ri = (ri + 1) % roles.length;
+        sw.textContent = roles[ri];
+        sw.style.opacity = "1";
+        sw.style.transform = "translateY(0)";
+      }, 300);
+    }, 2800);
 
-<script>
-  const roles = ['KMP / CMP Developer','Android Engineer','iOS Learner 🍎','OSS Author','Kotlin Enthusiast','Multiplatform Builder'];
-  let ri = 0;
-  const sw = document.getElementById('spinWord');
-  setInterval(() => {
-    sw.style.opacity = '0';
-    sw.style.transform = 'translateY(8px)';
-    sw.style.transition = 'opacity .28s ease, transform .28s ease';
-    setTimeout(() => {
-      ri = (ri + 1) % roles.length;
-      sw.textContent = roles[ri];
-      sw.style.transition = 'opacity .38s ease, transform .38s ease';
-      sw.style.opacity = '1';
-      sw.style.transform = 'translateY(0)';
-    }, 300);
-  }, 2800);
-
-  const ps = document.getElementById('pScroll');
-  let isDown = false, startX, scrollLeft;
-  ps.addEventListener('mousedown', e => {
-    isDown = true; ps.style.cursor = 'grabbing';
-    startX = e.pageX - ps.offsetLeft; scrollLeft = ps.scrollLeft;
-  });
-  ps.addEventListener('mouseleave', () => { isDown = false; ps.style.cursor = 'grab'; });
-  ps.addEventListener('mouseup', () => { isDown = false; ps.style.cursor = 'grab'; });
-  ps.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    ps.scrollLeft = scrollLeft - (e.pageX - ps.offsetLeft - startX) * 1.4;
-  });
-  let touchStartX = 0, touchScrollLeft = 0;
-  ps.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; touchScrollLeft = ps.scrollLeft; }, { passive: true });
-  ps.addEventListener('touchmove', e => { ps.scrollLeft = touchScrollLeft - (e.touches[0].pageX - touchStartX); }, { passive: true });
-
-  const obs = new IntersectionObserver(
-    es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }),
-    { threshold: .08 }
-  );
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  const entries = document.querySelectorAll('.exp-entry');
-  const sideItems = document.querySelectorAll('.exp-side-item');
-
-  sideItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetId = item.dataset.target;
-      const targetEl = document.getElementById(targetId);
-      if (!targetEl) return;
-
-      const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--ticker-h')) +
-                     parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) + 32;
-
-      const top = targetEl.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
-
-      sideItems.forEach(s => s.classList.remove('on'));
-      item.classList.add('on');
-    });
-  });
-
-  const eObs = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if (e.isIntersecting) {
-        const id = e.target.id;
-        sideItems.forEach(s => {
-          s.classList.toggle('on', s.dataset.target === id);
-        });
+    (function () {
+      const track = document.getElementById("tickerTrack");
+      if (!track) return;
+      let pos = 0;
+      let halfW = track.scrollWidth / 2;
+      let rafId;
+      function step() {
+        pos += 0.3;
+        if (pos >= halfW) pos = 0;
+        track.style.transform = "translateX(-" + pos + "px)";
+        rafId = requestAnimationFrame(step);
       }
-    });
-  }, {
-    threshold: 0,
-    rootMargin: '-20% 0px -60% 0px'
-  });
-  entries.forEach(el => eObs.observe(el));
+      step();
+      window.addEventListener("resize", () => {
+        halfW = track.scrollWidth / 2;
+      });
+      const wrap = document.querySelector(".ticker-wrap");
+      wrap.addEventListener("mouseenter", () => cancelAnimationFrame(rafId));
+      wrap.addEventListener("mouseleave", () => {
+        rafId = requestAnimationFrame(step);
+      });
+    })();
 
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const navObs = new IntersectionObserver(es => {
-    es.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(a => {
-          const isActive = a.getAttribute('href') === '#' + e.target.id;
-          a.classList.toggle('active', isActive);
-        });
+    (function () {
+      const inner = document.getElementById("marqueeInner");
+      if (!inner) return;
+      let pos = 0;
+      let halfW = inner.scrollWidth / 2;
+      let rafId;
+      const bar = document.querySelector(".marquee-bar");
+      function step() {
+        pos += 0.6;
+        if (pos >= halfW) pos = 0;
+        inner.style.transform = "translateX(-" + pos + "px)";
+        rafId = requestAnimationFrame(step);
       }
-    });
-  }, { threshold: .3 });
-  sections.forEach(s => navObs.observe(s));
+      step();
+      window.addEventListener("resize", () => {
+        halfW = inner.scrollWidth / 2;
+      });
+      bar.addEventListener("mouseenter", () => cancelAnimationFrame(rafId));
+      bar.addEventListener("mouseleave", () => {
+        rafId = requestAnimationFrame(step);
+      });
+    })();
 
-  const backTop = document.getElementById('backTop');
-  window.addEventListener('scroll', () => {
-    backTop.classList.toggle('vis', window.scrollY > 600);
-  }, { passive: true });
-
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
-  });
-  document.querySelectorAll('.mob-link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
+    const ps = document.getElementById("pScroll");
+    let isDown = false,
+      startX,
+      scrollLeft;
+    ps.addEventListener("mousedown", (e) => {
+      isDown = true;
+      ps.style.cursor = "grabbing";
+      startX = e.pageX - ps.offsetLeft;
+      scrollLeft = ps.scrollLeft;
+      e.preventDefault();
     });
-  });
-</script>
+    ps.addEventListener("mouseleave", () => {
+      isDown = false;
+      ps.style.cursor = "grab";
+    });
+    ps.addEventListener("mouseup", () => {
+      isDown = false;
+      ps.style.cursor = "grab";
+    });
+    ps.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const walk = (e.pageX - ps.offsetLeft - startX) * 1.5;
+      ps.scrollLeft = scrollLeft - walk;
+    });
+    let touchStartX = 0,
+      touchScrollLeft = 0;
+    ps.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.touches[0].pageX;
+        touchScrollLeft = ps.scrollLeft;
+      },
+      { passive: true },
+    );
+    ps.addEventListener(
+      "touchmove",
+      (e) => {
+        ps.scrollLeft = touchScrollLeft - (e.touches[0].pageX - touchStartX);
+      },
+      { passive: true },
+    );
+
+    const revObs = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add("on");
+        }),
+      { threshold: 0.07 },
+    );
+    document.querySelectorAll(".reveal").forEach((el) => revObs.observe(el));
+
+    const entries = document.querySelectorAll(".exp-entry");
+    const sideItems = document.querySelectorAll(".exp-side-item");
+    let clickLocked = false;
+    let lockTimer = null;
+
+    function setActiveSide(id) {
+      sideItems.forEach((s) =>
+        s.classList.toggle("on", s.dataset.target === id),
+      );
+    }
+
+    sideItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const target = document.getElementById(item.dataset.target);
+        if (!target) return;
+        setActiveSide(item.dataset.target);
+        clickLocked = true;
+        clearTimeout(lockTimer);
+        lockTimer = setTimeout(() => {
+          clickLocked = false;
+        }, 1400);
+
+        const tickH = parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--ticker-h",
+          ),
+        );
+        const navH = parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--nav-h",
+          ),
+        );
+        const top =
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          tickH -
+          navH -
+          30;
+        window.scrollTo({ top, behavior: "smooth" });
+      });
+    });
+
+    const eObs = new IntersectionObserver(
+      (es) => {
+        if (clickLocked) return;
+        es.forEach((e) => {
+          if (e.isIntersecting) setActiveSide(e.target.id);
+        });
+      },
+      { threshold: 0, rootMargin: "-10% 0px -50% 0px" },
+    );
+    entries.forEach((el) => eObs.observe(el));
+
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-links a");
+    const navObs = new IntersectionObserver(
+      (es) => {
+        es.forEach((e) => {
+          if (e.isIntersecting) {
+            navLinks.forEach((a) =>
+              a.classList.toggle(
+                "active",
+                a.getAttribute("href") === "#" + e.target.id,
+              ),
+            );
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+    sections.forEach((s) => navObs.observe(s));
+
+    const mainNav = document.getElementById("mainNav");
+    window.addEventListener(
+      "scroll",
+      () => {
+        mainNav.classList.toggle("scrolled", window.scrollY > 20);
+      },
+      { passive: true },
+    );
+
+    const backTop = document.getElementById("backTop");
+    window.addEventListener(
+      "scroll",
+      () => {
+        backTop.classList.toggle("vis", window.scrollY > 600);
+      },
+      { passive: true },
+    );
+
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      mobileMenu.classList.toggle("open");
+    });
+    document.querySelectorAll(".mob-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("open");
+        mobileMenu.classList.remove("open");
+      });
+    });
+  </script>
 </body>
+
 </html>
