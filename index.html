@@ -1412,7 +1412,8 @@
 
     .worked-sec {
       background: var(--ink);
-      padding: 8rem 4rem
+      padding: 8rem 4rem;
+      position: relative;
     }
 
     .worked-sec .ey {
@@ -2002,12 +2003,17 @@
 
     .contact-sec {
       background: var(--cream2);
+      padding: 9rem 4rem;
+      position: relative;
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 6rem;
-      align-items: center;
-      padding: 9rem 4rem;
-      position: relative;
+      align-items: start;
     }
 
     .contact-big {
@@ -2125,7 +2131,7 @@
       width: 36px;
       height: 36px;
       border-radius: 6px;
-      background: var(--cream2);
+      background: var(--cream);
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -2281,8 +2287,11 @@
       }
 
       .contact-sec {
+        padding: 5rem 2rem
+      }
+
+      .contact-inner {
         grid-template-columns: 1fr;
-        padding: 5rem 2rem;
         gap: 3.5rem
       }
 
@@ -2958,103 +2967,105 @@
 
   <section class="contact-sec" id="contact">
     <div class="ghost" aria-hidden="true">06</div>
-    <div class="si reveal">
-      <div class="ey" style="margin-bottom:.85rem">Contact</div>
-      <h2 class="contact-big">Let's build<br /><em>something great.</em></h2>
-      <div class="contact-mail-wrap">
-        <a href="mailto:buildwith.shivathapaa@gmail.com" class="contact-mail">
-          <span class="contact-mail-text">buildwith.shivathapaa@gmail.com</span>
-          <span class="contact-mail-arrow">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+    <div class="contact-inner">
+      <div class="contact-left si reveal">
+        <div class="ey" style="margin-bottom:.85rem">Contact</div>
+        <h2 class="contact-big">Let's build<br /><em>something great.</em></h2>
+        <div class="contact-mail-wrap">
+          <a href="mailto:buildwith.shivathapaa@gmail.com" class="contact-mail">
+            <span class="contact-mail-text">buildwith.shivathapaa@gmail.com</span>
+            <span class="contact-mail-arrow">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </div>
+        <p class="contact-note">Whether you're building a KMP project, want to collaborate on open source, or just want
+          to say hello - I'd love to hear from you.</p>
+      </div>
+      <div class="soc-list si reveal">
+        <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">🐙</div>
+            <div>
+              <div class="soc-name">GitHub</div>
+              <div class="soc-handle">@shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round" />
-            </svg>
-          </span>
+            </svg></span>
+        </a>
+        <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">💼</div>
+            <div>
+              <div class="soc-name">LinkedIn</div>
+              <div class="soc-handle">in/shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>
+        </a>
+        <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">✍️</div>
+            <div>
+              <div class="soc-name">Medium</div>
+              <div class="soc-handle">@shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>
+        </a>
+        <a href="https://plugins.gradle.org/u/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">⬡</div>
+            <div>
+              <div class="soc-name">Gradle Plugin Portal</div>
+              <div class="soc-handle">u/shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>
+        </a>
+        <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
+          class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">📦</div>
+            <div>
+              <div class="soc-name">Maven Central</div>
+              <div class="soc-handle">io.github.shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>
+        </a>
+        <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+          <div class="soc-left">
+            <div class="soc-ic">🔗</div>
+            <div>
+              <div class="soc-name">klibs.io</div>
+              <div class="soc-handle">author/shivathapaa</div>
+            </div>
+          </div>
+          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></span>
         </a>
       </div>
-      <p class="contact-note">Whether you're building a KMP project, want to collaborate on open source, or just want to
-        say hello - I'd love to hear from you.</p>
-    </div>
-    <div class="soc-list reveal">
-      <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">🐙</div>
-          <div>
-            <div class="soc-name">GitHub</div>
-            <div class="soc-handle">@shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
-      <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">💼</div>
-          <div>
-            <div class="soc-name">LinkedIn</div>
-            <div class="soc-handle">in/shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
-      <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">✍️</div>
-          <div>
-            <div class="soc-name">Medium</div>
-            <div class="soc-handle">@shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
-      <a href="https://plugins.gradle.org/u/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">⬡</div>
-          <div>
-            <div class="soc-name">Gradle Plugin Portal</div>
-            <div class="soc-handle">u/shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
-      <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
-        class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">📦</div>
-          <div>
-            <div class="soc-name">Maven Central</div>
-            <div class="soc-handle">io.github.shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
-      <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-        <div class="soc-left">
-          <div class="soc-ic">🔗</div>
-          <div>
-            <div class="soc-name">klibs.io</div>
-            <div class="soc-handle">author/shivathapaa</div>
-          </div>
-        </div>
-        <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-            <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></span>
-      </a>
     </div>
   </section>
 
@@ -3138,10 +3149,10 @@
       function renderCards(items) {
         if (!items || !items.length) {
           grid.innerHTML = `<div class="blog-state">
-        <a href="https://medium.com/@${USER}" target="_blank" rel="noopener"
-           style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,134,42,.3)">
-          Visit Medium →
-        </a></div>`;
+            <a href="https://medium.com/@${USER}" target="_blank" rel="noopener"
+               style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,134,42,.3)">
+              Visit Medium →
+            </a></div>`;
           return;
         }
         grid.innerHTML = items.slice(0, 3).map(item => {
@@ -3181,48 +3192,32 @@
         });
       }
 
-      // Try rss2json, fall back to corsproxy.io
       const RSS_URL = `https://medium.com/feed/@${USER}`;
-      const primary = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&count=3`;
-      const fallback = `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`;
-
-      fetch(primary)
-        .then(r => r.json())
-        .then(d => {
-          if (d.status === 'ok' && d.items && d.items.length) {
-            renderCards(d.items);
-          } else {
-            throw new Error('rss2json empty');
-          }
+      fetch(`https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`)
+        .then(r => r.text())
+        .then(xml => {
+          const doc = new DOMParser().parseFromString(xml, 'text/xml');
+          const items = [...doc.querySelectorAll('item')].slice(0, 3).map(el => {
+            const content = el.querySelector('encoded')?.textContent || el.querySelector('description')?.textContent || '';
+            const cats = [...el.querySelectorAll('category')].map(c => c.textContent);
+            const thumbMatch = content.match(/<img[^>]+src="([^"]+)"/);
+            return {
+              title: el.querySelector('title')?.textContent || '',
+              link: el.querySelector('link')?.textContent || '',
+              pubDate: el.querySelector('pubDate')?.textContent || '',
+              content,
+              categories: cats,
+              thumbnail: thumbMatch ? thumbMatch[1] : null
+            };
+          });
+          renderCards(items);
         })
         .catch(() => {
-          // Fallback: fetch the RSS feed directly and parse it
-          fetch(fallback)
-            .then(r => r.text())
-            .then(xml => {
-              const doc = new DOMParser().parseFromString(xml, 'text/xml');
-              const items = [...doc.querySelectorAll('item')].slice(0, 3).map(el => {
-                const content = el.querySelector('encoded')?.textContent || el.querySelector('description')?.textContent || '';
-                const cats = [...el.querySelectorAll('category')].map(c => c.textContent);
-                const thumbMatch = content.match(/<img[^>]+src="([^"]+)"/);
-                return {
-                  title: el.querySelector('title')?.textContent || '',
-                  link: el.querySelector('link')?.textContent || '',
-                  pubDate: el.querySelector('pubDate')?.textContent || '',
-                  content,
-                  categories: cats,
-                  thumbnail: thumbMatch ? thumbMatch[1] : null
-                };
-              });
-              renderCards(items);
-            })
-            .catch(() => {
-              grid.innerHTML = `<div class="blog-state">
+          grid.innerHTML = `<div class="blog-state">
             <a href="https://medium.com/@${USER}" target="_blank" rel="noopener"
                style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,134,42,.3)">
               Read on Medium →
             </a></div>`;
-            });
         });
     })();
   </script>
