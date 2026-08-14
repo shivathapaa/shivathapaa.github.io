@@ -2,3225 +2,649 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shiva Thapa - KMP Developer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiva Thapa — Kotlin Multiplatform Lead Developer</title>
   <meta name="description"
-    content="Kotlin Multiplatform developer crafting apps that feel native on Android & iOS. Open source contributor based in Kathmandu, Nepal." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Syne+Mono&family=Syne:wght@400;600;700;800&display=swap"
-    rel="stylesheet" />
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    :root {
-      --cream: #f5edd9;
-      --cream2: #ede0c4;
-      --ink: #1a1710;
-      --ink2: #2e2b21;
-      --gold: #d4862a;
-      --gold2: #f0a94e;
-      --sage: #6b8f71;
-      --sage2: #93b899;
-      --muted: #7a6d52;
-      --border: #d5c9ae;
-      --ticker: 34px;
-      --nav: 68px;
-      --off: calc(var(--ticker) + var(--nav));
-      --r: clamp(2.6rem, 5vw, 4.2rem);
-    }
-
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden
-    }
-
-    body {
-      background: var(--cream);
-      color: var(--ink);
-      font-family: 'Syne', sans-serif;
-      font-size: 17px;
-      overflow-x: hidden
-    }
-
-    .ticker-wrap {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 700;
-      background: var(--ink);
-      overflow: hidden;
-      height: var(--ticker);
-      display: flex;
-      align-items: center
-    }
-
-    .ticker-label {
-      background: var(--gold);
-      color: var(--ink);
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      padding: 0 1.2rem;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0
-    }
-
-    .ticker-viewport {
-      flex: 1;
-      overflow: hidden;
-      position: relative
-    }
-
-    .ticker-track {
-      display: flex;
-      white-space: nowrap;
-      will-change: transform
-    }
-
-    .ticker-item {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .07em;
-      color: rgba(245, 237, 217, .65);
-      padding: 0 2.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .55rem;
-      flex-shrink: 0
-    }
-
-    .ticker-item::before {
-      content: "◆";
-      color: var(--gold);
-      font-size: .4rem
-    }
-
-    nav {
-      position: fixed;
-      top: var(--ticker);
-      left: 0;
-      right: 0;
-      z-index: 600;
-      padding: 0 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(245, 237, 217, .97);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      height: var(--nav);
-      transition: box-shadow .3s
-    }
-
-    nav.scrolled {
-      box-shadow: 0 4px 30px rgba(26, 23, 16, .08)
-    }
-
-    .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem;
-      font-weight: 700;
-      letter-spacing: .03em;
-      text-decoration: none;
-      color: inherit
-    }
-
-    .logo em {
-      color: var(--gold);
-      font-style: italic
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.8rem;
-      list-style: none
-    }
-
-    .nav-links a {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .2s;
-      position: relative;
-      padding-bottom: 2px
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      right: 0;
-      height: 1.5px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .25s
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--gold)
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
-      transform: scaleX(1)
-    }
-
-    .nav-cta {
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--ink);
-      color: var(--cream);
-      padding: .6rem 1.5rem;
-      border-radius: 2px;
-      text-decoration: none;
-      transition: background .2s, color .2s;
-      display: flex;
-      align-items: center;
-      gap: .4rem
-    }
-
-    .nav-cta:hover {
-      background: var(--gold);
-      color: var(--ink)
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 5px;
-      background: none;
-      border: none
-    }
-
-    .hamburger span {
-      display: block;
-      width: 23px;
-      height: 2px;
-      background: var(--ink);
-      transition: all .25s
-    }
-
-    .hamburger.open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg)
-    }
-
-    .hamburger.open span:nth-child(2) {
-      opacity: 0
-    }
-
-    .hamburger.open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg)
-    }
-
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: calc(var(--ticker) + var(--nav));
-      left: 0;
-      right: 0;
-      background: rgba(245, 237, 217, .98);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      z-index: 590;
-      flex-direction: column;
-      padding: 1.5rem 2rem;
-      gap: .3rem
-    }
-
-    .mob-menu.open {
-      display: flex
-    }
-
-    .mob-menu a {
-      font-family: 'Syne Mono', monospace;
-      font-size: .8rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      padding: .9rem 0;
-      border-bottom: 1px solid var(--border);
-      transition: color .2s
-    }
-
-    .mob-menu a:last-child {
-      border-bottom: none
-    }
-
-    .mob-menu a:hover {
-      color: var(--gold)
-    }
-
-    .hero {
-      min-height: 100svh;
-      padding-top: calc(var(--off) + 5rem);
-      padding-bottom: 6rem;
-      padding-left: 4rem;
-      padding-right: 4rem;
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 240px;
-      align-items: end;
-      gap: 4rem;
-      overflow: hidden
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden
-    }
-
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(26, 23, 16, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(26, 23, 16, .03) 1px, transparent 1px);
-      background-size: 60px 60px
-    }
-
-    .hero-orb {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(212, 134, 42, .06) 0%, transparent 70%);
-      right: -100px;
-      top: 20%
-    }
-
-    .hero-wm {
-      position: absolute;
-      right: -2rem;
-      top: 36%;
-      transform: translateY(-50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(11rem, 18vw, 19rem);
-      font-weight: 700;
-      font-style: italic;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(213, 201, 174, .75);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-      z-index: 0
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1
-    }
-
-    .hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: .9rem;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: riseUp .8s ease .1s forwards
-    }
-
-    .alive-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--sage);
-      animation: livePulse 2s ease 1.8s infinite;
-      flex-shrink: 0
-    }
-
-    @keyframes livePulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(107, 143, 113, .5)
-      }
-
-      50% {
-        box-shadow: 0 0 0 10px rgba(107, 143, 113, 0)
-      }
-    }
-
-    .eyebrow-txt {
-      font-family: 'Syne Mono', monospace;
-      font-size: .75rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--sage)
-    }
-
-    .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(5.5rem, 10vw, 10.5rem);
-      font-weight: 700;
-      line-height: .9;
-      letter-spacing: -.025em;
-      margin-bottom: 1.2rem;
-      opacity: 0;
-      animation: riseUp 1s ease .25s forwards
-    }
-
-    .hero-name .hollow {
-      display: block;
-      margin-left: 3rem;
-      color: transparent;
-      -webkit-text-stroke: 1.5px var(--ink)
-    }
-
-    .hero-divider {
-      width: 3rem;
-      height: 2px;
-      background: var(--gold);
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      animation: riseUp .8s ease .4s forwards
-    }
-
-    .hero-role {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.3rem, 2.2vw, 1.85rem);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--muted);
-      margin-bottom: 2.8rem;
-      opacity: 0;
-      animation: riseUp .9s ease .5s forwards;
-      display: flex;
-      align-items: center;
-      gap: .8rem;
-      flex-wrap: wrap
-    }
-
-    .spin {
-      color: var(--gold);
-      font-style: normal;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600;
-      display: inline-block;
-      min-width: 240px;
-      transition: opacity .28s, transform .28s
-    }
-
-    .hero-bio {
-      max-width: 550px;
-      font-size: 1.05rem;
-      line-height: 1.9;
-      color: var(--muted);
-      margin-bottom: 2.8rem;
-      opacity: 0;
-      animation: riseUp .9s ease .65s forwards
-    }
-
-    .hero-bio strong {
-      color: var(--ink);
-      font-weight: 600
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: riseUp .9s ease .8s forwards
-    }
-
-    .btn-fill {
-      font-family: 'Syne Mono', monospace;
-      font-size: .74rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--ink);
-      color: var(--cream);
-      padding: 1rem 2.2rem;
-      border-radius: 2px;
-      text-decoration: none;
-      transition: all .22s;
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem
-    }
-
-    .btn-fill:hover {
-      background: var(--gold);
-      color: var(--ink);
-      transform: translateY(-2px)
-    }
-
-    .btn-ghost {
-      font-family: 'Syne Mono', monospace;
-      font-size: .74rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: transparent;
-      color: var(--ink);
-      border: 1.5px solid var(--ink);
-      padding: 1rem 2.2rem;
-      border-radius: 2px;
-      text-decoration: none;
-      transition: all .22s;
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-2px)
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      animation: slideRight .9s ease .95s forwards
-    }
-
-    .stat-block {
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.5rem 1.8rem;
-      background: rgba(245, 237, 217, .8);
-      backdrop-filter: blur(10px)
-    }
-
-    .stat-block.dark {
-      background: var(--ink);
-      border-color: var(--ink)
-    }
-
-    .stat-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--gold);
-      margin-bottom: .3rem
-    }
-
-    .stat-block.dark .stat-n {
-      color: var(--gold2)
-    }
-
-    .stat-l {
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .stat-block.dark .stat-l {
-      color: rgba(245, 237, 217, .4)
-    }
-
-    @keyframes riseUp {
-      from {
-        opacity: 0;
-        transform: translateY(28px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    @keyframes slideRight {
-      from {
-        opacity: 0;
-        transform: translateX(20px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0)
-      }
-    }
-
-    .mq-bar {
-      background: var(--ink);
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      padding: 1.2rem 0;
-      overflow: hidden;
-      position: relative
-    }
-
-    .mq-bar::before,
-    .mq-bar::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 80px;
-      z-index: 2;
-      pointer-events: none
-    }
-
-    .mq-bar::before {
-      left: 0;
-      background: linear-gradient(to right, var(--ink), transparent)
-    }
-
-    .mq-bar::after {
-      right: 0;
-      background: linear-gradient(to left, var(--ink), transparent)
-    }
-
-    .mq-inner {
-      display: flex;
-      white-space: nowrap;
-      will-change: transform;
-      width: max-content
-    }
-
-    .mq-i {
-      font-family: 'Syne Mono', monospace;
-      font-size: .78rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      color: rgba(245, 237, 217, .4);
-      padding: 0 2.2rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      transition: color .2s;
-      cursor: default;
-      flex-shrink: 0
-    }
-
-    .mq-i:hover {
-      color: var(--gold2)
-    }
-
-    .mq-i.hi {
-      color: rgba(245, 237, 217, .72)
-    }
-
-    .mq-i.sage {
-      color: var(--sage2)
-    }
-
-    .mq-sep {
-      color: var(--gold);
-      font-size: .4rem
-    }
-
-    .sec {
-      padding: 8rem 4rem;
-      position: relative
-    }
-
-    .ghost {
-      position: absolute;
-      top: 1rem;
-      left: 2rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(7rem, 13vw, 14rem);
-      font-weight: 700;
-      color: transparent;
-      -webkit-text-stroke: 1px var(--border);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none
-    }
-
-    .si {
-      position: relative;
-      z-index: 1
-    }
-
-    .ey {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .9rem;
-      display: flex;
-      align-items: center;
-      gap: .8rem
-    }
-
-    .ey::before {
-      content: "";
-      width: 2rem;
-      height: 1.5px;
-      background: var(--gold);
-      flex-shrink: 0
-    }
-
-    .sec-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: var(--r);
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -.01em
-    }
-
-    .about-sec {
-      background: var(--cream)
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 1fr;
-      gap: 5.5rem;
-      align-items: start;
-      margin-top: 4rem
-    }
-
-    .ap {
-      font-size: 1rem;
-      line-height: 1.95;
-      color: var(--muted);
-      margin-bottom: 1.5rem
-    }
-
-    .ap strong {
-      color: var(--ink);
-      font-weight: 600
-    }
-
-    .ios-card {
-      margin-top: 2rem;
-      background: var(--ink);
-      border-radius: 8px;
-      padding: 2rem 2.2rem;
-      position: relative;
-      overflow: hidden
-    }
-
-    .ios-card::after {
-      content: "";
-      position: absolute;
-      right: -2rem;
-      top: -3rem;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(100, 181, 246, .08) 0%, transparent 70%);
-      pointer-events: none
-    }
-
-    .ios-live {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .67rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #64b5f6;
-      margin-bottom: .9rem
-    }
-
-    .ios-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #64b5f6;
-      animation: blink 1.4s ease infinite;
-      flex-shrink: 0
-    }
-
-    @keyframes blink {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .2
-      }
-    }
-
-    .ios-card h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.55rem;
-      font-weight: 700;
-      color: var(--cream);
-      margin-bottom: .55rem
-    }
-
-    .ios-card p {
-      font-size: .88rem;
-      color: rgba(245, 237, 217, .5);
-      line-height: 1.75
-    }
-
-    .ios-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .45rem;
-      margin-top: 1.1rem
-    }
-
-    .ios-chip {
-      font-family: 'Syne Mono', monospace;
-      font-size: .67rem;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      background: rgba(100, 181, 246, .09);
-      border: 1px solid rgba(100, 181, 246, .22);
-      color: #8ec8f6;
-      padding: .35rem .85rem;
-      border-radius: 3px
-    }
-
-    .skills-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.6rem
-    }
-
-    .sk-row {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.5rem
-    }
-
-    .sk-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0
-    }
-
-    .sk-lbl {
-      font-family: 'Syne Mono', monospace;
-      font-size: .66rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem
-    }
-
-    .chip {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem;
-      letter-spacing: .04em;
-      padding: .4rem 1rem;
-      border-radius: 3px;
-      border: 1px solid var(--border);
-      color: var(--ink2);
-      transition: all .18s;
-      cursor: default
-    }
-
-    .chip:hover {
-      border-color: var(--gold);
-      color: var(--gold)
-    }
-
-    .chip.dk {
-      background: var(--ink);
-      color: var(--cream);
-      border-color: var(--ink)
-    }
-
-    .chip.dk:hover {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--ink)
-    }
-
-    .chip.ios {
-      border-color: rgba(100, 181, 246, .35);
-      color: #64b5f6;
-      background: rgba(100, 181, 246, .07)
-    }
-
-    .phil {
-      background: var(--ink);
-      padding: 10rem 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden
-    }
-
-    .phil-o {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none
-    }
-
-    .phil-o.a {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(212, 134, 42, .06) 0%, transparent 70%);
-      left: -200px;
-      top: -200px
-    }
-
-    .phil-o.b {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(107, 143, 113, .06) 0%, transparent 70%);
-      right: -150px;
-      bottom: -150px
-    }
-
-    .phil-q {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.7rem, 3.5vw, 3rem);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--cream);
-      line-height: 1.6;
-      max-width: 860px;
-      margin: 0 auto 2rem;
-      position: relative;
-      z-index: 1
-    }
-
-    .phil-q em {
-      color: var(--gold2);
-      font-style: normal
-    }
-
-    .phil-rule {
-      width: 40px;
-      height: 1.5px;
-      background: var(--gold);
-      margin: 1.6rem auto
-    }
-
-    .phil-by {
-      font-family: 'Syne Mono', monospace;
-      font-size: .67rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(245, 237, 217, .3)
-    }
-
-    .shipped-sec {
-      background: var(--cream2)
-    }
-
-    .shipped-sub {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: .5rem
-    }
-
-    .aalekh-hero {
-      margin-top: 3.5rem;
-      background: var(--ink);
-      border-radius: 14px;
-      overflow: hidden
-    }
-
-    .aalekh-inner {
-      padding: 3.5rem
-    }
-
-    .aalekh-meta {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-      margin-bottom: 1.6rem;
-      flex-wrap: wrap
-    }
-
-    .aalekh-star {
-      font-family: 'Syne Mono', monospace;
-      font-size: .58rem;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--gold2);
-      background: rgba(212, 134, 42, .1);
-      border: 1px solid rgba(212, 134, 42, .2);
-      border-radius: 3px;
-      padding: .3rem .85rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem
-    }
-
-    .aalekh-star::before {
-      content: "★";
-      font-size: .5rem
-    }
-
-    .aalekh-type {
-      font-family: 'Syne Mono', monospace;
-      font-size: .58rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(245, 237, 217, .22)
-    }
-
-    .aalekh-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.8rem, 5.5vw, 5rem);
-      font-weight: 700;
-      color: var(--cream);
-      line-height: 1;
-      margin-bottom: .55rem
-    }
-
-    .aalekh-tagline {
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2.2rem
-    }
-
-    .aalekh-body {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-      margin-bottom: 2.5rem
-    }
-
-    .aalekh-desc {
-      font-size: .97rem;
-      color: rgba(245, 237, 217, .5);
-      line-height: 1.9
-    }
-
-    .aalekh-desc strong {
-      color: rgba(245, 237, 217, .8);
-      font-weight: 600
-    }
-
-    .aalekh-feats {
-      display: flex;
-      flex-direction: column;
-      gap: .8rem
-    }
-
-    .aalekh-feat {
-      display: flex;
-      align-items: flex-start;
-      gap: .75rem;
-      font-size: .88rem;
-      color: rgba(245, 237, 217, .38);
-      line-height: 1.6
-    }
-
-    .aalekh-feat-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-      margin-top: .56em
-    }
-
-    .aalekh-footer {
-      padding-top: 2rem;
-      border-top: 1px solid rgba(245, 237, 217, .07)
-    }
-
-    .aalekh-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .4rem;
-      margin-bottom: 1.1rem
-    }
-
-    .aalekh-links {
-      display: flex;
-      gap: .65rem;
-      flex-wrap: wrap;
-      align-items: center
-    }
-
-    .aalekh-link {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: .6rem 1.25rem;
-      border-radius: 3px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      transition: all .2s;
-      white-space: nowrap
-    }
-
-    .aalekh-link.primary {
-      background: var(--gold);
-      color: var(--ink);
-      border: 1.5px solid var(--gold)
-    }
-
-    .aalekh-link.primary:hover {
-      background: var(--gold2);
-      border-color: var(--gold2);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(212, 134, 42, .25)
-    }
-
-    .aalekh-link.outline {
-      border: 1.5px solid rgba(245, 237, 217, .15);
-      color: rgba(245, 237, 217, .5);
-      background: transparent
-    }
-
-    .aalekh-link.outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(212, 134, 42, .06);
-      transform: translateY(-2px)
-    }
-
-    .atag {
-      font-family: 'Syne Mono', monospace;
-      font-size: .58rem;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      padding: .25rem .7rem;
-      border-radius: 3px
-    }
-
-    .atag.k {
-      background: rgba(127, 82, 255, .09);
-      border: 1px solid rgba(127, 82, 255, .22);
-      color: #a48fff
-    }
-
-    .atag.g {
-      background: rgba(212, 134, 42, .1);
-      border: 1px solid rgba(212, 134, 42, .25);
-      color: var(--gold2)
-    }
-
-    .atag.s {
-      background: rgba(107, 143, 113, .1);
-      border: 1px solid rgba(107, 143, 113, .25);
-      color: var(--sage2)
-    }
-
-    .atag.d {
-      background: rgba(245, 237, 217, .06);
-      border: 1px solid rgba(245, 237, 217, .12);
-      color: rgba(245, 237, 217, .4)
-    }
-
-    .cat-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      margin-top: 3.5rem
-    }
-
-    .cat-label {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .cat-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border)
-    }
-
-    .cat-count {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      color: var(--border)
-    }
-
-    .proj-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem
-    }
-
-    .proj-card {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.6rem 1.6rem 1.4rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      transition: transform .3s, box-shadow .3s, border-color .25s;
-      position: relative;
-      overflow: hidden
-    }
-
-    .proj-card::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--gold2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .3s
-    }
-
-    .proj-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(26, 23, 16, .12);
-      border-color: rgba(212, 134, 42, .3)
-    }
-
-    .proj-card:hover::after {
-      transform: scaleX(1)
-    }
-
-    .proj-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 9px;
-      background: var(--cream2);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      transition: background .25s, border-color .25s
-    }
-
-    .proj-card:hover .proj-icon {
-      background: rgba(212, 134, 42, .1);
-      border-color: rgba(212, 134, 42, .25)
-    }
-
-    .proj-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.55rem;
-      font-weight: 700;
-      margin-bottom: .25rem;
-      line-height: 1.1
-    }
-
-    .proj-sub {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      color: var(--muted);
-      margin-bottom: .85rem;
-      line-height: 1.4
-    }
-
-    .proj-desc {
-      font-size: .9rem;
-      color: var(--muted);
-      line-height: 1.85;
-      flex: 1;
-      margin-bottom: 1.1rem
-    }
-
-    .proj-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .35rem;
-      margin-bottom: 1rem
-    }
-
-    .proj-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: .9rem;
-      border-top: 1px solid var(--border)
-    }
-
-    .proj-lang {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: .4rem
-    }
-
-    .proj-arr {
-      color: var(--border);
-      transition: all .22s
-    }
-
-    .proj-card:hover .proj-arr {
-      color: var(--gold);
-      transform: translate(2px, -2px)
-    }
-
-    .pip {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      flex-shrink: 0
-    }
-
-    .pip.km {
-      background: linear-gradient(135deg, #7f52ff 50%, #0a84ff 50%)
-    }
-
-    .pip.py {
-      background: #3572a5
-    }
-
-    .tallyo-card {
-      background: linear-gradient(140deg, #161210 0%, #1e1a12 100%);
-      border: 1px solid rgba(212, 134, 42, .22);
-      border-radius: 10px;
-      padding: 1.6rem 1.6rem 1.4rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      transition: transform .3s, box-shadow .3s, border-color .3s;
-      position: relative;
-      overflow: hidden
-    }
-
-    .tallyo-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent 5%, rgba(212, 134, 42, .45) 50%, transparent 95%)
-    }
-
-    .tallyo-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 80% 0%, rgba(212, 134, 42, .07) 0%, transparent 65%);
-      pointer-events: none
-    }
-
-    .tallyo-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(212, 134, 42, .1);
-      border-color: rgba(212, 134, 42, .45)
-    }
-
-    .tallyo-icon {
-      font-size: 1.8rem;
-      margin-bottom: .75rem;
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--cream);
-      margin-bottom: .25rem;
-      line-height: 1.1;
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-sub {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      color: rgba(245, 237, 217, .28);
-      margin-bottom: .85rem;
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-desc {
-      font-size: .87rem;
-      color: rgba(245, 237, 217, .42);
-      line-height: 1.8;
-      flex: 1;
-      margin-bottom: 1.1rem;
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .35rem;
-      margin-bottom: 1rem;
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: .9rem;
-      border-top: 1px solid rgba(245, 237, 217, .07);
-      position: relative;
-      z-index: 1
-    }
-
-    .tallyo-arr {
-      color: rgba(245, 237, 217, .18);
-      transition: all .22s
-    }
-
-    .tallyo-card:hover .tallyo-arr {
-      color: var(--gold);
-      transform: translate(2px, -2px)
-    }
-
-    .worked-sec {
-      background: var(--ink);
-      padding: 8rem 4rem;
-      position: relative;
-    }
-
-    .worked-sec .ey {
-      color: var(--gold2)
-    }
-
-    .worked-sec .ey::before {
-      background: var(--gold2)
-    }
-
-    .worked-sec .sec-title {
-      color: var(--cream)
-    }
-
-    .worked-sec .ghost {
-      -webkit-text-stroke: 1px rgba(245, 237, 217, .06)
-    }
-
-    .mission-log {
-      margin-top: 4rem;
-      position: relative
-    }
-
-    .mission-log::before {
-      content: "";
-      position: absolute;
-      left: 1.5rem;
-      top: 1rem;
-      bottom: 1rem;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(212, 134, 42, .35) 10%, rgba(212, 134, 42, .35) 90%, transparent)
-    }
-
-    .mission {
-      padding: 0 0 4rem 4.5rem;
-      position: relative
-    }
-
-    .mission:last-child {
-      padding-bottom: 0
-    }
-
-    .mission-dot {
-      position: absolute;
-      left: .85rem;
-      top: .3rem;
-      width: 1.3rem;
-      height: 1.3rem;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      background: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: center
-    }
-
-    .mission-dot::after {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--gold)
-    }
-
-    .mission-period {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .6rem
-    }
-
-    .mission-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.6rem, 3vw, 2.3rem);
-      font-weight: 700;
-      color: var(--cream);
-      line-height: 1.15;
-      margin-bottom: .4rem
-    }
-
-    .mission-co {
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem;
-      color: rgba(245, 237, 217, .3);
-      margin-bottom: .9rem
-    }
-
-    .mission-badges {
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.4rem
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      font-family: 'Syne Mono', monospace;
-      font-size: .58rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: .28rem .75rem;
-      border-radius: 3px
-    }
-
-    .badge.app {
-      background: rgba(107, 143, 113, .15);
-      border: 1px solid rgba(107, 143, 113, .3);
-      color: var(--sage2)
-    }
-
-    .badge.kmp {
-      background: rgba(127, 82, 255, .12);
-      border: 1px solid rgba(127, 82, 255, .28);
-      color: #a48fff
-    }
-
-    .mission-pts {
-      list-style: none;
-      margin-bottom: 1.5rem
-    }
-
-    .mission-pts li {
-      font-size: .94rem;
-      color: rgba(245, 237, 217, .42);
-      line-height: 1.9;
-      padding-left: 1.4rem;
-      position: relative;
-      margin-bottom: .4rem
-    }
-
-    .mission-pts li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: .78em;
-      width: 7px;
-      height: 1.5px;
-      background: var(--gold)
-    }
-
-    .mission-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border: 1px solid rgba(212, 134, 42, .25);
-      padding: .45rem 1rem;
-      border-radius: 3px;
-      transition: all .2s
-    }
-
-    .mission-link:hover {
-      background: var(--gold);
-      color: var(--ink);
-      border-color: var(--gold)
-    }
-
-    .sys-map {
-      margin-top: 3rem;
-      background: rgba(245, 237, 217, .03);
-      border: 1px solid rgba(245, 237, 217, .07);
-      border-radius: 12px;
-      padding: 3rem
-    }
-
-    .sys-title {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: rgba(245, 237, 217, .25);
-      text-align: center;
-      margin-bottom: 2.5rem
-    }
-
-    .sys-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem
-    }
-
-    .sys-node {
-      background: rgba(245, 237, 217, .04);
-      border: 1px solid rgba(245, 237, 217, .08);
-      border-radius: 8px;
-      padding: 1.6rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color .25s, background .25s
-    }
-
-    .sys-node:hover {
-      border-color: rgba(212, 134, 42, .25);
-      background: rgba(212, 134, 42, .04)
-    }
-
-    .sys-node::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: 0;
-      transition: opacity .3s
-    }
-
-    .sys-node:hover::before {
-      opacity: 1
-    }
-
-    .sys-node-icon {
-      font-size: 1.4rem;
-      margin-bottom: .9rem
-    }
-
-    .sys-node-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--cream);
-      margin-bottom: .4rem
-    }
-
-    .sys-node-desc {
-      font-family: 'Syne Mono', monospace;
-      font-size: .65rem;
-      color: rgba(245, 237, 217, .3);
-      line-height: 1.6
-    }
-
-    .sys-node-tag {
-      margin-top: 1rem;
-      display: inline-block;
-      font-family: 'Syne Mono', monospace;
-      font-size: .56rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(212, 134, 42, .6);
-      border: 1px solid rgba(212, 134, 42, .18);
-      padding: .22rem .65rem;
-      border-radius: 3px
-    }
-
-    .oss-sec {
-      background: var(--cream2)
-    }
-
-    .oss-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem
-    }
-
-    .oss-cell {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2.2rem 2rem;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      transition: background .25s, transform .25s, border-color .25s, box-shadow .25s;
-      position: relative;
-      overflow: hidden
-    }
-
-    .oss-cell::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .3s
-    }
-
-    .oss-cell:hover {
-      background: var(--ink);
-      border-color: var(--ink);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(26, 23, 16, .15)
-    }
-
-    .oss-cell:hover::before {
-      transform: scaleX(1)
-    }
-
-    .oss-cell:hover .oss-name {
-      color: var(--cream)
-    }
-
-    .oss-cell:hover .oss-desc {
-      color: rgba(245, 237, 217, .45)
-    }
-
-    .oss-cell:hover .oss-foot {
-      border-color: rgba(245, 237, 217, .1)
-    }
-
-    .oss-cell:hover .oss-em {
-      background: rgba(212, 134, 42, .15)
-    }
-
-    .oss-em {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: var(--cream2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.2rem;
-      transition: background .25s;
-      font-size: 1.5rem;
-      flex-shrink: 0
-    }
-
-    .oss-body {
-      flex: 1
-    }
-
-    .oss-name {
-      font-weight: 700;
-      font-size: .95rem;
-      margin-bottom: .5rem;
-      transition: color .25s
-    }
-
-    .oss-desc {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem;
-      color: var(--muted);
-      line-height: 1.65;
-      transition: color .25s
-    }
-
-    .oss-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1.5rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid var(--border);
-      transition: border-color .25s
-    }
-
-    .oss-tag {
-      font-family: 'Syne Mono', monospace;
-      font-size: .62rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color .25s
-    }
-
-    .oss-cell:hover .oss-tag {
-      color: rgba(245, 237, 217, .3)
-    }
-
-    .oss-arr {
-      color: var(--border);
-      transition: all .22s;
-      display: flex;
-      align-items: center
-    }
-
-    .oss-cell:hover .oss-arr {
-      color: var(--gold)
-    }
-
-    .oss-cell:hover .oss-arr svg {
-      transform: translate(3px, -3px)
-    }
-
-    .oss-arr svg {
-      transition: transform .22s
-    }
-
-    .blog-sec {
-      background: var(--cream);
-      padding: 8rem 4rem 4rem;
-      position: relative
-    }
-
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem;
-    }
-
-    .blog-card {
-      background: var(--cream2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      transition: transform .3s, box-shadow .3s, border-color .25s;
-      position: relative
-    }
-
-    .blog-card::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--gold2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .3s
-    }
-
-    .blog-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(26, 23, 16, .1);
-      border-color: rgba(212, 134, 42, .3)
-    }
-
-    .blog-card:hover::after {
-      transform: scaleX(1)
-    }
-
-    .blog-thumb {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      object-position: top;
-      display: block;
-      flex-shrink: 0;
-    }
-
-    .blog-thumb-ph {
-      width: 100%;
-      height: 168px;
-      background: linear-gradient(135deg, var(--ink) 0%, #2e2b21 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      flex-shrink: 0
-    }
-
-    .blog-body {
-      padding: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1
-    }
-
-    .blog-meta {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      margin-bottom: .85rem;
-      flex-wrap: wrap
-    }
-
-    .blog-date {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .blog-sep {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background: var(--border)
-    }
-
-    .blog-read {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .06em;
-      color: var(--gold)
-    }
-
-    .blog-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.28rem;
-      font-weight: 600;
-      line-height: 1.35;
-      color: var(--ink);
-      margin-bottom: .65rem;
-      flex: 1
-    }
-
-    .blog-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: .85rem;
-      border-top: 1px solid var(--border)
-    }
-
-    .blog-tag {
-      font-family: 'Syne Mono', monospace;
-      font-size: .6rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .blog-arr {
-      color: var(--border);
-      transition: all .22s;
-      display: flex
-    }
-
-    .blog-card:hover .blog-arr {
-      color: var(--gold);
-      transform: translate(2px, -2px)
-    }
-
-    .blog-state {
-      grid-column: 1/-1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 2.5rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .7rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    .blog-spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      flex-shrink: 0
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .blog-more {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      font-family: 'Syne Mono', monospace;
-      font-size: .68rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(212, 134, 42, .3);
-      padding-bottom: .2rem;
-      margin-top: 2.5rem;
-      transition: border-color .2s, gap .2s
-    }
-
-    .blog-more:hover {
-      border-color: var(--gold);
-      gap: .8rem
-    }
-
-    .contact-sec {
-      background: var(--cream2);
-      padding: 9rem 4rem;
-      position: relative;
-    }
-
-    .contact-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-
-    .contact-big {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 4vw, 3.5rem);
-      font-weight: 600;
-      line-height: 1.1;
-      margin-bottom: 1.4rem
-    }
-
-    .contact-big em {
-      color: var(--gold);
-      font-style: italic
-    }
-
-    .contact-mail-wrap {
-      margin: 1.2rem 0 2.4rem;
-      display: inline-block
-    }
-
-    .contact-mail {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 1.6vw, 1.5rem);
-      font-weight: 600;
-      color: var(--ink);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .75rem
-    }
-
-    .contact-mail-text {
-      position: relative
-    }
-
-    .contact-mail-text::after {
-      content: "";
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      right: 0;
-      height: 1.5px;
-      background: linear-gradient(90deg, var(--gold), var(--gold2));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .3s
-    }
-
-    .contact-mail:hover .contact-mail-text::after {
-      transform: scaleX(1)
-    }
-
-    .contact-mail-arrow {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1.5px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      transition: all .25s;
-      flex-shrink: 0
-    }
-
-    .contact-mail:hover .contact-mail-arrow {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--ink);
-      transform: rotate(-45deg)
-    }
-
-    .contact-note {
-      font-size: .97rem;
-      color: var(--muted);
-      line-height: 1.9;
-      max-width: 400px
-    }
-
-    .soc-list {
-      display: flex;
-      flex-direction: column
-    }
-
-    .soc-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.4rem 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--ink);
-      transition: color .2s
-    }
-
-    .soc-row:first-child {
-      border-top: 1px solid var(--border)
-    }
-
-    .soc-row:hover {
-      color: var(--gold)
-    }
-
-    .soc-row:hover .soc-arr svg {
-      transform: translate(4px, -4px)
-    }
-
-    .soc-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem
-    }
-
-    .soc-ic {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      background: var(--cream);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .95rem;
-      transition: background .2s;
-      flex-shrink: 0
-    }
-
-    .soc-row:hover .soc-ic {
-      background: rgba(212, 134, 42, .12);
-      border-color: rgba(212, 134, 42, .3)
-    }
-
-    .soc-name {
-      font-weight: 700;
-      font-size: .95rem
-    }
-
-    .soc-handle {
-      font-family: 'Syne Mono', monospace;
-      font-size: .72rem;
-      color: var(--muted);
-      margin-top: .1rem
-    }
-
-    .soc-arr {
-      color: var(--muted);
-      transition: color .2s
-    }
-
-    .soc-arr svg {
-      transition: transform .2s
-    }
-
-    footer {
-      background: var(--ink);
-      padding: 2rem 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between
-    }
-
-    .ft-l {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: rgba(245, 237, 217, .35)
-    }
-
-    .ft-l span {
-      color: var(--gold);
-      font-style: italic
-    }
-
-    .ft-r {
-      font-family: 'Syne Mono', monospace;
-      font-size: .64rem;
-      letter-spacing: .1em;
-      color: rgba(245, 237, 217, .2);
-      text-transform: uppercase
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .7s ease, transform .7s ease
-    }
-
-    .reveal.on {
-      opacity: 1;
-      transform: translateY(0)
-    }
-
-    .back-top {
-      position: fixed;
-      bottom: 2.5rem;
-      right: 2.5rem;
-      z-index: 400;
-      width: 48px;
-      height: 48px;
-      background: var(--ink);
-      color: var(--cream);
-      border: none;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .3s, background .2s, transform .2s;
-      text-decoration: none
-    }
-
-    .back-top.vis {
-      opacity: 1;
-      pointer-events: auto
-    }
-
-    .back-top:hover {
-      background: var(--gold);
-      color: var(--ink);
-      transform: translateY(-3px)
-    }
-
-    @media(max-width:1100px) {
-
-      .oss-grid,
-      .blog-grid,
-      .proj-grid {
-        grid-template-columns: repeat(2, 1fr)
-      }
-    }
-
-    @media(max-width:960px) {
-      nav {
-        padding: 0 2rem
-      }
-
-      .nav-links {
-        display: none
-      }
-
-      .hamburger {
-        display: flex
-      }
-
-      .hero {
-        padding: calc(var(--off) + 2.5rem) 2rem 4rem;
-        grid-template-columns: 1fr
-      }
-
-      .hero-wm {
-        display: none
-      }
-
-      .hero-stats {
-        flex-direction: row;
-        flex-wrap: wrap
-      }
-
-      .sec,
-      .blog-sec {
-        padding: 5rem 2rem
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 3.5rem
-      }
-
-      .aalekh-body {
-        grid-template-columns: 1fr
-      }
-
-      .contact-sec {
-        padding: 5rem 2rem
-      }
-
-      .contact-inner {
-        grid-template-columns: 1fr;
-        gap: 3.5rem
-      }
-
-      .worked-sec {
-        padding: 5rem 2rem
-      }
-
-      .sys-grid {
-        grid-template-columns: 1fr
-      }
-
-      footer {
-        padding: 1.5rem 2rem;
-        flex-direction: column;
-        gap: .6rem;
-        text-align: center
-      }
-
-      .phil {
-        padding: 7rem 2rem
-      }
-    }
-
-    @media(max-width:768px) {
-
-      .proj-grid,
-      .oss-grid,
-      .blog-grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    @media(max-width:600px) {
-      :root {
-        --ticker: 30px
-      }
-
-      .hero {
-        padding-left: 1.2rem;
-        padding-right: 1.2rem
-      }
-
-      .hero-stats {
-        display: none
-      }
-
-      .hero-name {
-        font-size: clamp(3.8rem, 15vw, 5.5rem)
-      }
-
-      .sec,
-      .blog-sec {
-        padding: 4.5rem 1.2rem
-      }
-
-      .contact-sec {
-        padding: 4.5rem 1.2rem
-      }
-
-      footer {
-        padding: 1.5rem 1.2rem
-      }
-
-      .aalekh-inner {
-        padding: 2rem 1.6rem
-      }
-
-      .phil {
-        padding: 6rem 1.2rem
-      }
-    }
-  </style>
+    content="KMP/CMP lead in Kathmandu — Android and iOS shipped from one Compose Multiplatform codebase. Author of Nepali Date Picker, KMP-Logger, and Aalekh; writes long-form KMP engineering. Case study: a production app rebuilt to 93% shared code, live on both stores.">
+  <link rel="canonical" href="https://shivathapaa.github.io/">
+  <meta name="theme-color" content="#f5edd9">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shivathapaa.github.io/">
+  <meta property="og:title" content="Shiva Thapa — Kotlin Multiplatform Lead Developer">
+  <meta property="og:description"
+    content="KMP/CMP lead in Kathmandu — Android and iOS shipped from one Compose Multiplatform codebase. Author of Nepali Date Picker, KMP-Logger, and Aalekh; writes long-form KMP engineering. Case study: a production app rebuilt to 93% shared code, live on both stores.">
+  <meta property="og:image" content="https://shivathapaa.github.io/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shiva Thapa — Kotlin Multiplatform Lead Developer">
+  <meta name="twitter:description"
+    content="KMP/CMP lead in Kathmandu — Android and iOS shipped from one Compose Multiplatform codebase. Author of Nepali Date Picker, KMP-Logger, and Aalekh; writes long-form KMP engineering. Case study: a production app rebuilt to 93% shared code, live on both stores.">
+  <meta name="twitter:image" content="https://shivathapaa.github.io/assets/og.png">
+  <link rel="preload" href="fonts/cormorant-garamond-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/cormorant-garamond-600italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Shiva Thapa",
+    "jobTitle": "Kotlin Multiplatform Lead Developer",
+    "email": "mailto:buildwith.shivathapaa@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kathmandu",
+      "addressCountry": "NP"
+    },
+    "url": "https://shivathapaa.github.io/",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Pathway Technologies"
+    },
+    "sameAs": [
+      "https://github.com/shivathapaa",
+      "https://medium.com/@shivathapaa",
+      "https://dev.to/shivathapaa",
+      "https://www.linkedin.com/in/shivathapaa"
+    ]
+  }
+  </script>
 </head>
 
 <body>
+
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-label">Now</div>
     <div class="ticker-viewport">
       <div class="ticker-track" id="tickerTrack">
-        <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
-        <span class="ticker-item">Aalekh - Gradle plugin on Gradle Plugin Portal</span>
-        <span class="ticker-item">Nepali Date Picker - KMP - Android - iOS - Desktop - Web</span>
-        <span class="ticker-item">Actively learning Swift and SwiftUI</span>
-        <span class="ticker-item">KMP Logger - lightweight structured logging</span>
-        <span class="ticker-item">Publishing on Maven Central - GitHub Packages - GitLab</span>
-        <span class="ticker-item">Writing about KMP experiences on Medium</span>
+        <span class="ticker-item">Leading KMP/CMP at GeoKrishi Farm</span>
+        <span class="ticker-item">Aalekh — Gradle plugin on the Gradle Plugin Portal</span>
+        <span class="ticker-item">Nepali Date Picker — KMP · Android · iOS · Desktop · Web</span>
+        <span class="ticker-item">KMP-Logger — lightweight structured logging</span>
+        <span class="ticker-item">Publishing on Maven Central · Gradle Plugin Portal · PyPI</span>
+        <span class="ticker-item">Writing on Medium &amp; dev.to</span>
         <span class="ticker-item">Coding by day, crafting verses by night</span>
-        <span class="ticker-item">Leading KMP development for Geokrishi Farm</span>
-        <span class="ticker-item">Aalekh - Gradle plugin on Gradle Plugin Portal</span>
-        <span class="ticker-item">Nepali Date Picker - KMP - Android - iOS - Desktop - Web</span>
-        <span class="ticker-item">Actively learning Swift and SwiftUI</span>
-        <span class="ticker-item">KMP Logger - lightweight structured logging</span>
-        <span class="ticker-item">Publishing on Maven Central - GitHub Packages - GitLab</span>
-        <span class="ticker-item">Writing about KMP experiences on Medium</span>
-        <span class="ticker-item">Coding by day, crafting verses by night</span>
+        <span class="ticker-item" aria-hidden="true">Leading KMP/CMP at GeoKrishi Farm</span>
+        <span class="ticker-item" aria-hidden="true">Aalekh — Gradle plugin on the Gradle Plugin Portal</span>
+        <span class="ticker-item" aria-hidden="true">Nepali Date Picker — KMP · Android · iOS · Desktop · Web</span>
+        <span class="ticker-item" aria-hidden="true">KMP-Logger — lightweight structured logging</span>
+        <span class="ticker-item" aria-hidden="true">Publishing on Maven Central · Gradle Plugin Portal · PyPI</span>
+        <span class="ticker-item" aria-hidden="true">Writing on Medium &amp; dev.to</span>
+        <span class="ticker-item" aria-hidden="true">Coding by day, crafting verses by night</span>
       </div>
     </div>
   </div>
 
-  <nav id="mainNav">
-    <a href="#home" class="logo">Shiva <em>Thapa</em></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about">About</a></li>
-      <li><a href="#shipped">Shipped</a></li>
-      <li><a href="#worked">Worked At</a></li>
-      <li><a href="#oss">Open Source</a></li>
-      <li><a href="#blog">Writing</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="nav-right">
-      <a href="mailto:buildwith.shivathapaa@gmail.com" class="nav-cta">Hire Me <svg width="12" height="12"
-          viewBox="0 0 12 12" fill="none">
-          <path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg></a>
-      <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  <header class="site-header">
+    <nav id="mainNav" aria-label="Primary">
+      <a href="#home" class="logo">Shiva <em>Thapa</em></a>
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#rebuild">Case Study</a></li>
+        <li><a href="#oss">Open Source</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="mailto:buildwith.shivathapaa@gmail.com" class="nav-cta">Hire me</a>
+        <button class="hamburger" id="ham" aria-label="Menu" aria-expanded="false" aria-controls="mobMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="mob-menu" id="mobMenu">
+      <a href="#work" class="mob-lnk">Work</a>
+      <a href="#rebuild" class="mob-lnk">Case Study</a>
+      <a href="#oss" class="mob-lnk">Open Source</a>
+      <a href="#writing" class="mob-lnk">Writing</a>
+      <a href="#about" class="mob-lnk">About</a>
+      <a href="#contact" class="mob-lnk">Contact</a>
     </div>
-  </nav>
+  </header>
 
-  <div class="mob-menu" id="mobMenu">
-    <a href="#about" class="mob-lnk">About</a>
-    <a href="#shipped" class="mob-lnk">Things I've Shipped</a>
-    <a href="#worked" class="mob-lnk">Where I've Worked</a>
-    <a href="#oss" class="mob-lnk">Open Source</a>
-    <a href="#blog" class="mob-lnk">Writing</a>
-    <a href="#contact" class="mob-lnk">Contact</a>
-  </div>
+  <main id="main">
 
-  <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="hero-grid"></div>
-      <div class="hero-orb"></div>
-    </div>
-    <div class="hero-wm" aria-hidden="true">craft.</div>
-    <div class="hero-content">
-      <div class="hero-eyebrow">
-        <div class="alive-dot"></div>
-        <span class="eyebrow-txt">Open to opportunities · Kathmandu, Nepal</span>
-      </div>
-      <h1 class="hero-name">Shiva<span class="hollow">Thapa</span></h1>
-      <div class="hero-divider"></div>
-      <div class="hero-role">
-        <span class="spin" id="spinWord">KMP / CMP Developer</span>
-        <span>— building things that last</span>
-      </div>
-      <p class="hero-bio">Kotlin Multiplatform developer crafting apps that feel native on <strong>Android &amp;
-          iOS</strong>. OSS library author. Poet at heart. Currently expanding into native iOS development - and
-        genuinely loving it.</p>
-      <div class="hero-btns">
-        <a href="#shipped" class="btn-fill">See my work <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 2v10M2 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></a>
-        <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="btn-ghost">GitHub <svg width="14"
-            height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg></a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-block">
-        <div class="stat-n">3+</div>
-        <div class="stat-l">OSS Libraries</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-n">5+</div>
-        <div class="stat-l">Internal Libraries</div>
-      </div>
-      <div class="stat-block dark">
-        <div class="stat-n">★15</div>
-        <div class="stat-l">Stars on Aalekh</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="mq-bar">
-    <div class="mq-inner" id="mqInner">
-      <span class="mq-i hi">Kotlin<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Jetpack Compose<span class="mq-sep">◆</span></span>
-      <span class="mq-i hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
-      <span class="mq-i sage">Swift<span class="mq-sep">◆</span></span>
-      <span class="mq-i sage">SwiftUI<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Compose Multiplatform<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Gradle Plugins<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Ktor<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Koin<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Room<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Firebase<span class="mq-sep">◆</span></span>
-      <span class="mq-i">GitHub Actions<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Maven Central<span class="mq-sep">◆</span></span>
-      <span class="mq-i">ObjectBox<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Hilt<span class="mq-sep">◆</span></span>
-      <span class="mq-i hi">Kotlin<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Jetpack Compose<span class="mq-sep">◆</span></span>
-      <span class="mq-i hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
-      <span class="mq-i sage">Swift<span class="mq-sep">◆</span></span>
-      <span class="mq-i sage">SwiftUI<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Compose Multiplatform<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Gradle Plugins<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Ktor<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Koin<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Room<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Firebase<span class="mq-sep">◆</span></span>
-      <span class="mq-i">GitHub Actions<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Maven Central<span class="mq-sep">◆</span></span>
-      <span class="mq-i">ObjectBox<span class="mq-sep">◆</span></span>
-      <span class="mq-i">Hilt<span class="mq-sep">◆</span></span>
-    </div>
-  </div>
-
-  <section class="sec about-sec" id="about">
-    <div class="ghost" aria-hidden="true">01</div>
-    <div class="si">
-      <div class="ey">About</div>
-      <h2 class="sec-title reveal">The developer<br /><em
-          style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">behind the code</em></h2>
-      <div class="about-grid">
-        <div>
-          <p class="ap reveal">I'm <strong>Shiva Thapa</strong>, a Kotlin Multiplatform developer based in Kathmandu,
-            Nepal. I specialize in building apps that feel truly native on both Android and iOS - sharing business logic
-            through KMP and UI through CMP while crafting platform-specific UIs where they genuinely delight users.</p>
-          <p class="ap reveal">My day looks like: leading mobile development at <strong>Geokrishi</strong>, owning
-            everything from architecture decisions and feature delivery to Play Console releases and Crashlytics
-            monitoring. I'm also the bridge between Android, iOS, and backend teams - the person who makes sure everyone
-            speaks the same language.</p>
-          <p class="ap reveal">Outside of work, I publish <strong>open-source KMP libraries</strong> on Maven Central,
-            GitHub Packages, and GitLab Packages, write about experiences on Medium, and mentor developers working with
-            multiplatform. My latest project, <strong>Aalekh</strong>, is a Gradle plugin for architecture visualization
-            and enforcement.</p>
-          <div class="ios-card reveal">
-            <div class="ios-live">
-              <div class="ios-dot"></div>Actively Learning
-            </div>
-            <h4>Native iOS Development</h4>
-            <p>Making real, consistent progress with Swift and SwiftUI. The natural complement to KMP - understanding
-              the platform deeply so shared code integrates seamlessly and the iOS experience feels genuinely native.
-            </p>
-            <div class="ios-chips"><span class="ios-chip">Swift</span><span class="ios-chip">SwiftUI</span><span
-                class="ios-chip">Xcode</span><span class="ios-chip">iOS SDK</span></div>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="hero-wm" aria-hidden="true">craft.</div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">
+          <span class="alive-dot" aria-hidden="true"></span>
+          <span class="eyebrow-txt">KMP / CMP Lead Developer · Kathmandu, Nepal</span>
+        </p>
+        <h1 class="hero-name">Shiva<span class="hollow">Thapa</span></h1>
+        <div class="hero-divider" aria-hidden="true"></div>
+        <p class="hero-statement">I am Kotlin Multiplatform developer — <strong>Android and iOS shipped from
+            one codebase</strong> — and publish the reusable parts: libraries on Maven Central, a Gradle plugin,
+          and long-form engineering writing.
+        </p>
+        <p class="hero-sub">The flagship case study: GeoKrishi Farm, a production app rebuilt as Compose
+          Multiplatform and shipped to existing users on the App Store and Play Store.</p>
+        <div class="hero-btns">
+          <a href="#work" class="btn-fill">See the work <span aria-hidden="true">→</span></a>
+          <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="btn-ghost">GitHub</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-block">
+            <div class="stat-n">93%</div>
+            <div class="stat-l">shared code — production app, both stores</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-n">4</div>
+            <div class="stat-l">registries — Maven Central · Gradle Plugin Portal · PyPI · Play Store</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-n">2+&nbsp;years</div>
+            <div class="stat-l">production KMP — Android + iOS</div>
           </div>
         </div>
-        <div class="skills-list reveal">
-          <div class="sk-row">
-            <div class="sk-lbl">Languages</div>
-            <div class="chips"><span class="chip dk">Kotlin</span><span class="chip ios">Swift</span><span
-                class="chip">Python</span><span class="chip">Java</span><span class="chip">JavaScript</span></div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-lbl">UI &amp; Frameworks</div>
-            <div class="chips"><span class="chip dk">Jetpack Compose</span><span class="chip dk">Compose
-                Multiplatform</span><span class="chip ios">SwiftUI</span><span class="chip">Ktor</span><span
-                class="chip">Retrofit</span><span class="chip">Koin</span><span class="chip">Hilt</span></div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-lbl">Data &amp; Storage</div>
-            <div class="chips"><span class="chip">Room</span><span class="chip">ObjectBox</span><span
-                class="chip">Firebase</span><span class="chip">DataStore</span><span class="chip">MySQL</span></div>
-          </div>
-          <div class="sk-row">
-            <div class="sk-lbl">Tooling &amp; Publishing</div>
-            <div class="chips"><span class="chip">GitHub Actions</span><span class="chip">GitLab CI</span><span
-                class="chip">Play Console</span><span class="chip">Maven Central</span><span class="chip">Gradle
-                Plugins</span></div>
-          </div>
-        </div>
+        <p class="hero-now">Now — leading KMP/CMP at GeoKrishi</p>
+      </div>
+    </section>
+
+    <div class="mq-bar" aria-hidden="true">
+      <div class="mq-inner" id="mqInner">
+        <span class="mq-i hi">Kotlin<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Jetpack Compose<span class="mq-sep">◆</span></span>
+        <span class="mq-i hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
+        <span class="mq-i sage">Swift<span class="mq-sep">◆</span></span>
+        <span class="mq-i sage">SwiftUI<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Compose Multiplatform<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Gradle Plugins<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Ktor<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Koin<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Firebase<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Python<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Maven Central<span class="mq-sep">◆</span></span>
+        <span class="mq-i hi">Kotlin<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Jetpack Compose<span class="mq-sep">◆</span></span>
+        <span class="mq-i hi">Kotlin Multiplatform<span class="mq-sep">◆</span></span>
+        <span class="mq-i sage">Swift<span class="mq-sep">◆</span></span>
+        <span class="mq-i sage">SwiftUI<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Compose Multiplatform<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Gradle Plugins<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Ktor<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Koin<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Firebase<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Python<span class="mq-sep">◆</span></span>
+        <span class="mq-i">Maven Central<span class="mq-sep">◆</span></span>
       </div>
     </div>
-  </section>
 
-  <section class="phil">
-    <div class="phil-o a"></div>
-    <div class="phil-o b"></div>
-    <p class="phil-q reveal">"When fingers dance on keys, I code with all my might<br />But when a pen is in my hand, I
-      craft <em>verses through the night.</em>"</p>
-    <div class="phil-rule"></div>
-    <p class="phil-by">Shiva Thapa · Developer &amp; Poet · Kathmandu</p>
-  </section>
+    <!-- ============ 01 WORK ============ -->
+    <section class="sec" id="work" aria-labelledby="work-title">
+      <div class="ghost" aria-hidden="true">01</div>
+      <div class="si">
+        <p class="ey">Work</p>
+        <h2 class="sec-title" id="work-title">One employer,<br><em>many products.</em></h2>
+        <p class="kicker reveal">Pathway Technologies · Kathmandu · May 2024 – Present</p>
 
-  <section class="sec shipped-sec" id="shipped">
-    <div class="ghost" aria-hidden="true">02</div>
-    <div class="si">
-      <div class="ey">Things I've Shipped</div>
-      <h2 class="sec-title reveal">Personal work,<br /><em
-          style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">owned &amp; published</em>
-      </h2>
-      <p class="shipped-sub reveal">Libraries · Plugins · Apps · Tools</p>
-
-      <div class="aalekh-hero reveal">
-        <div class="aalekh-inner">
-          <div class="aalekh-meta">
-            <span class="aalekh-star">15 Stars on GitHub</span>
-            <span class="aalekh-type">Gradle Plugin · Architecture Tooling</span>
-          </div>
-          <div class="aalekh-name">Aalekh</div>
-          <div class="aalekh-tagline">Gradle Plugin Portal · Maven Central · KMP-aware · Config Cache compatible</div>
-          <div class="aalekh-body">
-            <p class="aalekh-desc">A Gradle plugin that <strong>extracts, visualizes, and enforces architectural
-                rules</strong> across any Gradle multi-module project - KMP, Android, JVM, or any Gradle project. One
-              plugin, three capabilities: an interactive module graph, a Kotlin DSL for rule enforcement, and historical
-              metrics - with zero external dependencies beyond the browser.</p>
-            <div class="aalekh-feats">
-              <div class="aalekh-feat">
-                <div class="aalekh-feat-dot"></div>Interactive force-directed module graph with 7 view tabs -
-                Architecture, Explore, Explorer, Matrix, Metrics, Violations, Diff
-              </div>
-              <div class="aalekh-feat">
-                <div class="aalekh-feat-dot"></div>Kotlin DSL for layer enforcement, feature isolation, team ownership
-                rules, and fully custom architecture policies
-              </div>
-              <div class="aalekh-feat">
-                <div class="aalekh-feat-dot"></div>SARIF output for GitHub PR annotations and JUnit XML for CI pipelines
-              </div>
-              <div class="aalekh-feat">
-                <div class="aalekh-feat-dot"></div>KPI dashboard with 30-run trend sparklines, cycle detection, blast
-                radius, and instability index
-              </div>
+        <div class="timeline">
+          <article class="mission reveal">
+            <div class="mission-dot" aria-hidden="true"></div>
+            <p class="mission-period">Feb 2026 – Present</p>
+            <h3 class="mission-title">TripTurbo — Android/KMP Developer</h3>
+            <ul class="mission-pts">
+              <li>Built the international flight-booking vertical end-to-end — search, dynamic fare repricing,
+                PNR creation with multipart document upload, passenger forms with validation, promo codes, and
+                payment integration — across the shared Kotlin data layer and Compose UI (~80 files).</li>
+              <li>Unified Android and iOS analytics onto a shared KMP tracking layer (GA4 + Meta App Events),
+                writing both the Kotlin and Swift halves.</li>
+              <li>Oversees feature delivery and mentors developers while progressively rolling Compose
+                Multiplatform out to the iOS codebase, replacing the remaining SwiftUI surface.</li>
+              <li>Migrated the networking layer to a typed sealed response hierarchy with per-status error
+                mapping — an 87-file refactor that removed ~2,500 net lines.</li>
+              <li>Diagnosed R8 obfuscation breaking encrypted-storage keys and shipped a legacy-key migration so
+                existing users' sessions survived the upgrade.</li>
+              <li>Cut three production releases; hardened payment flows, including deduping payment-gateway
+                callbacks to prevent duplicate verification calls.</li>
+            </ul>
+            <div class="mission-links">
+              <a href="https://play.google.com/store/apps/details?id=com.pathway.tripturbo.android" target="_blank"
+                rel="noopener" class="mission-link">Play Store <span aria-hidden="true">→</span></a>
+              <a href="https://apps.apple.com/np/app/trip-turbo/id6471469699" target="_blank"
+                rel="noopener" class="mission-link">App Store <span aria-hidden="true">→</span></a>
             </div>
-          </div>
-          <div class="aalekh-footer">
-            <div class="aalekh-tags">
-              <span class="atag k">Kotlin</span>
-              <span class="atag k">Gradle Plugin</span>
-              <span class="atag g">Gradle Portal</span>
-              <span class="atag g">Maven Central</span>
-              <span class="atag s">KMP-aware</span>
-              <span class="atag d">Conf Cache</span>
+          </article>
+
+          <article class="mission reveal">
+            <div class="mission-dot" aria-hidden="true"></div>
+            <p class="mission-period">Apr 2025 – Present</p>
+            <h3 class="mission-title">GeoKrishi Global — KMP/CMP Lead Developer</h3>
+            <ul class="mission-pts">
+              <li>Leads mobile — feature roadmap and architecture — as ~97% sole author from empty repo:
+                596 of 615 commits, ~90% of the code shared across Android and iOS.</li>
+              <li>Wrote the shared infrastructure solo: Ktor networking with typed errors and token refresh, a
+                WebSocket real-time layer, Koin DI, type-safe navigation, encrypted key-value storage, and a
+                single expect/actual boundary for all platform code.</li>
+              <li>Built real-time crop-health chat over WebSockets with cross-platform audio recording and
+                playback and streamed file uploads — including fixing an upload OOM.</li>
+              <li>Localized for multi-country use: three-language UI with per-app language preferences, language
+                propagated to HTTP and WebSocket headers, country-code login, currency-aware pricing.</li>
+            </ul>
+          </article>
+
+          <article class="mission reveal">
+            <div class="mission-dot" aria-hidden="true"></div>
+            <p class="mission-period">May 2024 – Present</p>
+            <h3 class="mission-title">Geokrishi Farm — Android Developer &amp; KMP Lead</h3>
+            <ul class="mission-pts">
+              <li>Owns Play Store and App Store releases — including swapping the entire codebase for the
+                Compose Multiplatform rebuild under the same listings, one version to the next.</li>
+              <li>Module graph has grown to 52+ since the rebuild (46 at ship), still with compile-time-checked
+                module boundaries.</li>
+              <li>Built the shared Material 3 component kit, including a Compose adaptation of iOS's Liquid
+                Glass so native surfaces still feel platform-correct.</li>
+              <li>Crashlytics ownership: crash monitoring, mapping and native-symbol uploads, release health.</li>
+              <li>Startup performance: baseline and startup profiles benchmarked with Macrobenchmark on the
+                low-end hardware farmers actually carry — ~18% faster cold start.</li>
+              <li>Drove AdMob integration and monetization experiments to grow in-app ad revenue.</li>
+              <li>Team liaison.</li>
+            </ul>
+            <p class="mission-xref"><a href="#rebuild">The case study below is this role's centerpiece.
+                <span aria-hidden="true">↓</span></a></p>
+            <div class="mission-links">
+              <a href="https://play.google.com/store/apps/details?id=com.pathway.geokrishi_farm" target="_blank"
+                rel="noopener" class="mission-link">Play Store <span aria-hidden="true">→</span></a>
+              <a href="https://apps.apple.com/np/app/geokrishi-farm/id1639308709" target="_blank"
+                rel="noopener" class="mission-link">App Store <span aria-hidden="true">→</span></a>
             </div>
-            <div class="aalekh-links">
-              <a href="https://plugins.gradle.org/plugin/io.github.shivathapaa.aalekh" target="_blank" rel="noopener"
-                class="aalekh-link primary">
-                Gradle Plugin Portal
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </a>
+          </article>
+
+          <article class="mission reveal">
+            <div class="mission-dot" aria-hidden="true"></div>
+            <p class="mission-period">May 2024 – Present</p>
+            <h3 class="mission-title">Internal &amp; field products</h3>
+            <ul class="mission-pts">
+              <li>Built multiple internal apps greenfield — first commit to internal distribution.</li>
+              <li>Offline-first field data-collection apps for teams working beyond reliable connectivity —
+                local persistence, deferred sync, conflict-tolerant uploads.</li>
+              <li>Internally distributed and maintained alongside the store-published products.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 CASE STUDY: THE REBUILD ============ -->
+    <section class="sec sec-dark rebuild-sec" id="rebuild" aria-labelledby="rebuild-title">
+      <div class="ghost" aria-hidden="true">02</div>
+      <div class="si">
+        <p class="ey">Case study · GeoKrishi Farm · May 2024 – Present</p>
+        <h2 class="sec-title" id="rebuild-title">Same app, same listing,<br><em>new architecture.</em></h2>
+
+        <p class="lead reveal">The flagship case study. GeoKrishi Farm is a farming app for Nepali farmers, in
+          production on the Play Store and the App Store. The old codebase was KMP in name only — one Gradle
+          module, a token slice of Kotlin compiling for iOS, and the entire iOS UI duplicated in SwiftUI. I
+          rebuilt it as Compose Multiplatform and shipped it to existing users as a normal store update — same
+          listing, next versionCode.</p>
+
+        <div class="ledger-wrap reveal">
+          <table class="ledger">
+            <caption class="sr-only">Codebase before and after the rebuild</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="sr-only">Metric</span></th>
+                <th scope="col" class="ledger-col">Old</th>
+                <th scope="col" class="ledger-col">New</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Gradle modules</th>
+                <td class="old">1</td>
+                <td class="new">46</td>
+              </tr>
+              <tr>
+                <th scope="row">Kotlin compiled for iOS</th>
+                <td class="old">848 lines (of ~215,000)</td>
+                <td class="new">119,742 of 128,801 in commonMain — 93%, UI included</td>
+              </tr>
+              <tr>
+                <th scope="row">Swift</th>
+                <td class="old">64,690 lines (fully duplicated UI)</td>
+                <td class="new">993 lines</td>
+              </tr>
+              <tr>
+                <th scope="row">Codebases</th>
+                <td class="old">Two (Kotlin + SwiftUI)</td>
+                <td class="new">One — live on App Store + Play Store, same listings</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rebuild-cols">
+          <div class="rebuild-col reveal">
+            <h3 class="sub-h">Shipping in place</h3>
+            <ul class="dash-list">
+              <li>Zero-friction credential migration for existing users across an R8-obfuscation boundary — no
+                forced re-login on update.</li>
+              <li>iOS Keychain hygiene for fresh installs — Keychain items outlive the app, so reinstalls must
+                not inherit stale secrets.</li>
+              <li>Backward compatibility for years of accumulated deep-link and push-payload formats.</li>
+            </ul>
+          </div>
+          <div class="rebuild-col reveal">
+            <h3 class="sub-h">Measured, not estimated</h3>
+            <p class="dim-body">Cold start on a Redmi Note 11 (Android 13), 10 iterations each: 1,359 ms median
+              without a baseline profile, 1,118 ms with one — ~18% faster. Baseline and startup profiles are
+              generated on real low-end hardware, because that is what the users have.</p>
+          </div>
+        </div>
+
+        <h3 class="sub-h uth-head reveal">Under the hood</h3>
+        <div class="uth-grid reveal">
+          <div class="uth-card">
+            <h4>Biometric vaults, matched semantics</h4>
+            <p>AndroidKeyStore AES/GCM cipher bound to the prompt ↔ iOS Keychain
+              <code>kSecAccessControlBiometryCurrentSet</code>; both invalidate on biometry change.</p>
+          </div>
+          <div class="uth-card">
+            <h4>Firebase via CInterop</h4>
+            <p>A 16-line hand-written Objective-C header; the Kotlin klib carries no Firebase dependency.</p>
+          </div>
+          <div class="uth-card">
+            <h4>Swift implements Kotlin</h4>
+            <p>A Kotlin interface implemented in Swift bridges Google Maps/Places.</p>
+          </div>
+          <div class="uth-card">
+            <h4>Payment SDKs, one Kotlin interface</h4>
+            <p>Same pattern as Maps — each platform's native payment SDK sits behind a shared Kotlin interface,
+              so checkout call sites don't branch on platform.</p>
+          </div>
+          <div class="uth-card">
+            <h4>One push/deep-link resolver</h4>
+            <p>FCM push and deep links unified through a single shared Kotlin resolver on both OSes.</p>
+          </div>
+          <div class="uth-card">
+            <h4>37 expect/actual seams</h4>
+            <p>The full platform boundary, counted.</p>
+          </div>
+        </div>
+
+        <div class="rebuild-links reveal">
+          <a href="https://play.google.com/store/search?q=geokrishi+farm&amp;c=apps" target="_blank"
+            rel="noopener" class="rec-link">Play Store <span aria-hidden="true">→</span></a>
+          <a href="https://apps.apple.com/np/app/geokrishi-farm/id1639308709" target="_blank" rel="noopener"
+            class="rec-link">App Store <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 OPEN SOURCE ============ -->
+    <section class="sec sec-alt" id="oss" aria-labelledby="oss-title">
+      <div class="ghost" aria-hidden="true">03</div>
+      <div class="si">
+        <p class="ey">Open Source</p>
+        <h2 class="sec-title" id="oss-title">If I solve a problem twice,<br><em>it becomes a library.</em></h2>
+        <p class="kicker reveal">Every claim below links to a registry · Maven Central · Gradle Plugin Portal ·
+          PyPI · Play Store · klibs.io</p>
+
+        <div class="featured-grid">
+          <article class="feat-card reveal">
+            <p class="feat-tag">The Nepali Niche</p>
+            <h3 class="feat-name">Nepali Date Picker</h3>
+            <p class="feat-desc">Material3 date picker for Android, iOS, Desktop, and Web. On Maven Central under
+              <code>io.github.shivathapaa</code>.</p>
+            <div class="feat-links">
+              <a href="https://central.sonatype.com/artifact/io.github.shivathapaa/nepali-date-picker"
+                target="_blank" rel="noopener" class="rec-link">Maven Central</a>
+              <a href="https://github.com/shivathapaa/Nepali-Date-Picker" target="_blank" rel="noopener"
+                class="rec-link">GitHub</a>
+              <a href="https://klibs.io/project/shivathapaa/Nepali-Date-Picker" target="_blank" rel="noopener"
+                class="rec-link">klibs.io</a>
+            </div>
+          </article>
+
+          <article class="feat-card feat-dark reveal">
+            <p class="feat-type">Gradle Plugin · Architecture Tooling</p>
+            <h3 class="feat-name">Aalekh</h3>
+            <p class="feat-badge-line">Gradle Plugin Portal</p>
+            <p class="feat-desc">Gradle plugin that renders and enforces multi-module architecture from the
+              build.</p>
+            <p class="feat-origin"><a
+                href="https://medium.com/@shivathapaa/i-got-tired-of-reverse-engineering-my-own-architecture-so-i-built-a-tool-to-see-it-4bf7ba2fb1b1"
+                target="_blank" rel="noopener">The story <span aria-hidden="true">→</span></a></p>
+            <div class="feat-links">
+              <a href="https://plugins.gradle.org/plugin/io.github.shivathapaa.aalekh" target="_blank"
+                rel="noopener" class="rec-link gold">Gradle Plugin Portal</a>
               <a href="https://github.com/shivathapaa/Aalekh" target="_blank" rel="noopener"
-                class="aalekh-link outline">
-                GitHub
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </a>
+                class="rec-link">GitHub</a>
               <a href="https://shivathapaa.github.io/Aalekh/assets/report_samples/nowinandroid_withcyclic.html"
-                target="_blank" rel="noopener" class="aalekh-link outline">
-                Live Demo
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </a>
+                target="_blank" rel="noopener" class="rec-link demo">Live demo — try it <span
+                  aria-hidden="true">▸</span></a>
+            </div>
+          </article>
+        </div>
+
+        <div class="oss-grid">
+          <article class="oss-card reveal">
+            <h3 class="oss-name">KMP-Logger</h3>
+            <p class="oss-sub">+ logger-coroutines</p>
+            <p class="oss-desc">Structured KMP logging.</p>
+            <div class="oss-links">
+              <a href="https://central.sonatype.com/artifact/io.github.shivathapaa/logger" target="_blank"
+                rel="noopener" class="rec-link">Maven Central</a>
+              <a href="https://github.com/shivathapaa/KMP-Logger" target="_blank" rel="noopener"
+                class="rec-link">GitHub</a>
+              <a href="https://medium.com/@shivathapaa/debugging-kotlin-multiplatform-apps-with-better-observability-b285d9dc0754"
+                target="_blank" rel="noopener" class="rec-link">The write-up <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="oss-card reveal">
+            <h3 class="oss-name">Nepali Calendar Utils</h3>
+            <p class="oss-sub">Python</p>
+            <p class="oss-desc">The same niche, in Python.</p>
+            <div class="oss-links">
+              <a href="https://pypi.org/project/nepali-calendar-utils/" target="_blank" rel="noopener"
+                class="rec-link">PyPI</a>
+              <a href="https://github.com/shivathapaa/nepali_calendar_utils" target="_blank" rel="noopener"
+                class="rec-link">GitHub</a>
+            </div>
+          </article>
+
+          <article class="oss-card oss-dark reveal">
+            <h3 class="oss-name">Tallyo</h3>
+            <p class="oss-sub">App</p>
+            <p class="oss-desc">On the Play Store.</p>
+            <div class="oss-links">
+              <a href="https://play.google.com/store/apps/details?id=com.tallyo.tallyo" target="_blank"
+                rel="noopener" class="rec-link">Play Store</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="earlier-row reveal">Earlier:
+          <a href="https://github.com/shivathapaa/Music-Tag-Editor-and-Music-Manager" target="_blank"
+            rel="noopener">Music Tag Editor</a> ·
+          <a href="https://github.com/shivathapaa/SocialDemoProjects" target="_blank" rel="noopener">Projects Demo
+            Lab</a> →
+          <a href="https://github.com/shivathapaa" target="_blank" rel="noopener">github.com/shivathapaa</a>
+        </p>
+
+        <p class="sec-foot-line reveal">Plus 5+ internal libraries maintained at work, alongside the public
+          ones above</p>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE ============ -->
+    <section id="interlude" class="interlude" aria-label="Interlude">
+      <p class="interlude-q">&ldquo;When fingers dance on keys, I code with all my might<br>
+        But when a pen is in my hand, I craft <em>verses through the night.</em>&rdquo;</p>
+      <div class="interlude-rule" aria-hidden="true"></div>
+      <p class="interlude-by">Shiva Thapa · Developer &amp; Poet · Kathmandu</p>
+    </section>
+
+    <!-- ============ 04 WRITING ============ -->
+    <section class="sec" id="writing" aria-labelledby="writing-title">
+      <div class="ghost" aria-hidden="true">04</div>
+      <div class="si">
+        <p class="ey">Writing</p>
+        <h2 class="sec-title" id="writing-title">Notes from<br><em>production.</em></h2>
+
+        <div class="blog-grid" id="blogGrid">
+          <article class="blog-card reveal">
+            <h3 class="blog-title"><a
+                href="https://medium.com/@shivathapaa/kmp-networking-in-production-part-1-setting-up-ktor-the-right-way-91e7fdfd3c5b"
+                target="_blank" rel="noopener">KMP Networking in Production — Part 1: Setting up Ktor the right
+                way</a></h3>
+            <p class="blog-desc">Client configuration, plugins, and error mapping for a shared networking
+              layer.</p>
+            <span class="blog-chip">Part 1 of 4</span>
+          </article>
+          <article class="blog-card reveal">
+            <h3 class="blog-title"><a
+                href="https://medium.com/@shivathapaa/bridging-swift-to-kotlin-multiplatform-a-complete-guide-to-cinterop-in-multi-module-projects-af54d88f4b4f"
+                target="_blank" rel="noopener">Bridging Swift to Kotlin Multiplatform: a complete guide to
+                CInterop in multi-module projects</a></h3>
+            <p class="blog-desc">A 16-line Objective-C header is all the Kotlin klib needs to talk to
+              Firebase.</p>
+            <span class="blog-chip">As shipped in the case study</span>
+          </article>
+          <article class="blog-card reveal">
+            <h3 class="blog-title"><a
+                href="https://medium.com/@shivathapaa/convention-plugins-in-kotlin-multiplatform-the-complete-production-guide-cf61a109a73b"
+                target="_blank" rel="noopener">Convention Plugins in Kotlin Multiplatform: the complete production
+                guide</a></h3>
+            <p class="blog-desc">Extracting shared Gradle build logic for multi-module Kotlin Multiplatform
+              projects.</p>
+          </article>
+          <article class="blog-card reveal">
+            <h3 class="blog-title"><a
+                href="https://medium.com/@shivathapaa/debugging-kotlin-multiplatform-apps-with-better-observability-b285d9dc0754"
+                target="_blank" rel="noopener">Debugging Kotlin Multiplatform apps with better observability</a>
+            </h3>
+            <p class="blog-desc">Structured logging that works on every target.</p>
+            <span class="blog-chip">The KMP-Logger story</span>
+          </article>
+          <article class="blog-card reveal">
+            <h3 class="blog-title"><a
+                href="https://medium.com/@shivathapaa/i-got-tired-of-reverse-engineering-my-own-architecture-so-i-built-a-tool-to-see-it-4bf7ba2fb1b1"
+                target="_blank" rel="noopener">I got tired of reverse-engineering my own architecture, so I built
+                a tool to see it</a></h3>
+            <p class="blog-desc">Rendering and enforcing multi-module architecture from the build itself.</p>
+            <span class="blog-chip">The Aalekh story</span>
+          </article>
+        </div>
+
+        <p class="blog-foot reveal">All articles →
+          <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener">medium.com/@shivathapaa</a> ·
+          <a href="https://dev.to/shivathapaa" target="_blank" rel="noopener">dev.to/shivathapaa</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 05 ABOUT ============ -->
+    <section class="sec sec-alt" id="about" aria-labelledby="about-title">
+      <div class="ghost" aria-hidden="true">05</div>
+      <div class="si">
+        <p class="ey">About</p>
+        <h2 class="sec-title" id="about-title">The developer<br><em>behind the code</em></h2>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p class="ap reveal">KMP/CMP lead in Kathmandu. I build Android and iOS from one Kotlin codebase,
+              Compose UI included, and lead mobile at <strong>Pathway Technologies</strong> across its
+              products.</p>
+            <p class="ap reveal">I publish libraries to Maven Central, the Gradle Plugin Portal, and PyPI; write
+              on Medium and dev.to; and mentor the team I lead.</p>
+            <p class="ap reveal">The iOS side is Swift where the platform requires it — the @objc Firebase
+              bridge, the Maps integration, the app shell.</p>
+            <!-- résumé slot: assets/shiva-thapa-cv.pdf when available -->
+          </div>
+          <div class="skills-list reveal">
+            <div class="sk-row">
+              <h3 class="sk-lbl">Languages</h3>
+              <div class="chips"><span class="chip dk">Kotlin</span><span class="chip ios">Swift</span><span
+                  class="chip">Python</span>
+              </div>
+            </div>
+            <div class="sk-row">
+              <h3 class="sk-lbl">UI &amp; Frameworks</h3>
+              <div class="chips"><span class="chip dk">Jetpack Compose</span><span class="chip dk">Compose
+                  Multiplatform</span><span class="chip ios">SwiftUI</span><span class="chip">Ktor</span><span
+                  class="chip">Koin</span><span class="chip">Firebase</span></div>
+            </div>
+            <div class="sk-row">
+              <h3 class="sk-lbl">Tooling &amp; Publishing</h3>
+              <div class="chips"><span class="chip">Gradle convention plugins</span><span class="chip">Maven
+                  Central publishing</span></div>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="cat-header">
-        <span class="cat-label">KMP Libraries &amp; App</span>
-        <div class="cat-line"></div>
-        <span class="cat-count">02 - 04</span>
-      </div>
-      <div class="proj-grid">
-        <a href="https://klibs.io/project/shivathapaa/KMP-Logger" target="_blank" rel="noopener"
-          class="proj-card reveal">
-          <div class="proj-icon">📋</div>
-          <div class="proj-name">KMP Logger</div>
-          <div class="proj-sub">Structured Logging · All KMP Targets</div>
-          <p class="proj-desc">Lightweight, structured logging built natively for Kotlin Multiplatform. Clean API,
-            zero-overhead in production builds, designed to feel at home in any KMP project.</p>
-          <div class="proj-tags"><span class="atag k">KMP</span><span class="atag g">Maven Central</span><span
-              class="atag s">klibs.io</span></div>
-          <div class="proj-foot">
-            <span class="proj-lang"><span class="pip km"></span>Kotlin / KMP</span>
-            <span class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-        <a href="https://klibs.io/project/shivathapaa/Nepali-Date-Picker" target="_blank" rel="noopener"
-          class="proj-card reveal">
-          <div class="proj-icon">🗓️</div>
-          <div class="proj-name">Nepali Date Picker</div>
-          <div class="proj-sub">Material3 · KMP · Android · iOS · Desktop · Web</div>
-          <p class="proj-desc">Fully featured Material3-aligned Nepali Date Picker for KMP. Handles Nepali–Gregorian
-            conversion elegantly. Dialog and docked modes, feels native on every target.</p>
-          <div class="proj-tags"><span class="atag k">KMP / CMP</span><span class="atag g">Maven Central</span><span
-              class="atag s">klibs.io</span></div>
-          <div class="proj-foot">
-            <span class="proj-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
-            <span class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.tallyo.tallyo" target="_blank" rel="noopener"
-          class="tallyo-card reveal">
-          <div class="tallyo-icon">🎲</div>
-          <div class="tallyo-name">Tallyo</div>
-          <div class="tallyo-sub">Game Utility · Play Store · KMP / CMP</div>
-          <p class="tallyo-desc">Multifunctional game companion - score tracking, chess timer with Fischer increment,
-            dice, coin flip, random numbers, lap stopwatch. Built solo end-to-end with Compose Multiplatform.</p>
-          <div class="tallyo-tags"><span class="atag d">Play Store</span><span class="atag k">KMP / CMP</span></div>
-          <div class="tallyo-foot">
-            <span
-              style="font-family:'Syne Mono',monospace;font-size:.6rem;color:rgba(245,237,217,.2);letter-spacing:.06em;text-transform:uppercase">Android
-              · KMP</span>
-            <span class="tallyo-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-      </div>
-
-      <div class="cat-header">
-        <span class="cat-label">Tools &amp; Scripts</span>
-        <div class="cat-line"></div>
-        <span class="cat-count">05 - 07</span>
-      </div>
-      <div class="proj-grid">
-        <a href="https://pypi.org/project/nepali-calendar-utils/" target="_blank" rel="noopener"
-          class="proj-card reveal">
-          <div class="proj-icon">🐍</div>
-          <div class="proj-name">Nepali Calendar Utils</div>
-          <div class="proj-sub">Python · PyPI · Date Conversion</div>
-          <p class="proj-desc">Python package providing robust Nepali–Gregorian date utilities. Clean API, well-tested,
-            and PyPI-published. Ideal for any Python project needing localized Nepali date handling.</p>
-          <div class="proj-tags"><span class="atag g">PyPI</span></div>
-          <div class="proj-foot">
-            <span class="proj-lang"><span class="pip py"></span>Python</span>
-            <span class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-        <a href="https://github.com/shivathapaa/Music-Tag-Editor-and-Music-Manager" target="_blank" rel="noopener"
-          class="proj-card reveal">
-          <div class="proj-icon">🎵</div>
-          <div class="proj-name">Music Tag Editor</div>
-          <div class="proj-sub">Desktop · Metadata Manager · Python / Tkinter</div>
-          <p class="proj-desc">Desktop app for music organization and metadata editing. File list, tag editor, renaming,
-            extension filtering, and duplicate detection. Manage large libraries with ease.</p>
-          <div class="proj-tags"><span class="atag s">★ 8</span><span class="atag d">GitHub</span></div>
-          <div class="proj-foot">
-            <span class="proj-lang"><span class="pip py"></span>Python / tkinter</span>
-            <span class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-        <a href="https://github.com/shivathapaa/SocialDemoProjects" target="_blank" rel="noopener"
-          class="proj-card reveal">
-          <div class="proj-icon">🧪</div>
-          <div class="proj-name">Projects Demo Lab</div>
-          <div class="proj-sub">Education · KMP Patterns · CMP · Android</div>
-          <p class="proj-desc">Living collection of Android and KMP tips, tricks, workarounds, and educational code.
-            Helps developers navigate real-world multiplatform complexity. Continuously updated.</p>
-          <div class="proj-tags"><span class="atag s">★ 5</span><span class="atag k">KMP / CMP</span></div>
-          <div class="proj-foot">
-            <span class="proj-lang"><span class="pip km"></span>Kotlin / KMP / CMP</span>
-            <span class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="worked-sec" id="worked">
-    <div class="ghost" aria-hidden="true">03</div>
-    <div class="si">
-      <div class="ey">Where I've Worked</div>
-      <h2 class="sec-title reveal">Professional work,<br /><em
-          style="font-family:'Cormorant Garamond',serif;font-weight:300;color:rgba(245,237,217,.3)">shipped &amp;
-          distributed</em></h2>
-      <div class="mission-log">
-        <div class="mission reveal">
-          <div class="mission-dot"></div>
-          <div class="mission-period">Apr 2025 - Present</div>
-          <div class="mission-title">KMP / CMP Lead Developer</div>
-          <div class="mission-co">GeoKrishi Global · Pathway Technologies · Kathmandu, Nepal</div>
-          <div class="mission-badges"><span class="badge kmp">KMP + CMP Lead</span></div>
-          <ul class="mission-pts">
-            <li>Leading mobile development with KMP for true cross-platform delivery on Android and iOS</li>
-            <li>Overseeing feature roadmap delivery and actively mentoring the mobile team</li>
-            <li>Architecting shared business logic for seamless Android and iOS native feel</li>
-          </ul>
+    <!-- ============ 06 CONTACT ============ -->
+    <section class="sec" id="contact" aria-labelledby="contact-title">
+      <div class="ghost" aria-hidden="true">06</div>
+      <div class="si contact-inner">
+        <div class="contact-left">
+          <p class="ey">Contact</p>
+          <h2 class="sec-title" id="contact-title">Building for both platforms<br><em>from one codebase?</em></h2>
+          <p class="contact-mail-wrap reveal">
+            <a href="mailto:buildwith.shivathapaa@gmail.com" class="contact-mail">buildwith.shivathapaa@gmail.com
+              <span aria-hidden="true">→</span></a>
+          </p>
+          <p class="contact-note reveal">Open to KMP/CMP consulting, lead roles, and open-source collaboration.
+            I read everything sent here.</p>
         </div>
-        <div class="mission reveal">
-          <div class="mission-dot"></div>
-          <div class="mission-period">May 2024 - Present</div>
-          <div class="mission-title">Android Developer &amp; KMP Lead</div>
-          <div class="mission-co">Geokrishi Farm · Pathway Technologies · Kathmandu, Nepal</div>
-          <div class="mission-badges"><span class="badge app">Android + KMP + CMP Lead</span></div>
-          <ul class="mission-pts">
-            <li>Leading Android development while progressively adapting KMP for iOS integration</li>
-            <li>End-to-end ownership of Google Play Console - builds, releases, and CI/CD pipelines</li>
-            <li>Monitoring app stability through Crashlytics and driving continuous performance optimizations</li>
-            <li>Owning AdMob integration and monetization strategy for meaningful revenue growth</li>
-            <li>Primary liaison between Android, iOS, and backend engineering - keeping teams aligned and unblocked</li>
-          </ul>
-          <a href="https://play.google.com/store/apps/details?id=com.pathway.geokrishi_farm" target="_blank"
-            rel="noopener" class="mission-link">Geokrishi Farm on Play Store <svg width="11" height="11"
-              viewBox="0 0 11 11" fill="none">
-              <path d="M1.5 9.5L9.5 1.5M9.5 1.5H3.5M9.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round" />
-            </svg></a>
-        </div>
-        <div class="mission reveal">
-          <div class="mission-dot"></div>
-          <div class="mission-period">Oct 2025 - Present</div>
-          <div class="mission-title">Android / KMP Developer</div>
-          <div class="mission-co">TripTurbo · Pathway Technologies · Kathmandu, Nepal</div>
-          <div class="mission-badges"><span class="badge app">Android + KMP</span></div>
-          <ul class="mission-pts">
-            <li>Developing in the international flight booking module - pricing, API integration, and Jetpack Compose
-              UI for a core revenue feature</li>
-            <li>Optimizing API interactions and caching strategies, improving response performance and reducing pricing
-              inconsistencies</li>
-            <li>Diagnosing and resolving critical production issues using Firebase Crashlytics, improving crash-free
-              session rate</li>
-            <li>Collaborating with iOS, backend and product teams to evolve scalable architecture and ensure reliable feature
-              delivery</li>
-          </ul>
-          <a href="https://play.google.com/store/apps/details?id=com.pathway.tripturbo.android" target="_blank"
-            rel="noopener" class="mission-link">TripTurbo on Play Store <svg width="11" height="11" viewBox="0 0 11 11"
-              fill="none">
-              <path d="M1.5 9.5L9.5 1.5M9.5 1.5H3.5M9.5 1.5V7.5" stroke="currentColor" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round" />
-            </svg></a>
-        </div>
-      </div>
-      <div class="sys-map reveal">
-        <div class="sys-title">Distributed Work · Professional Ecosystem</div>
-        <div class="sys-grid">
-          <div class="sys-node">
-            <div class="sys-node-icon">📡</div>
-            <div class="sys-node-name">Field Apps (Offline-first)</div>
-            <div class="sys-node-desc">Built with local database and offline-first architecture using Kotlin
-              Multiplatform. Distributed locally - iOS not deployed due to sideloading constraints.</div>
-            <span class="sys-node-tag">KMP · Offline-first</span>
-          </div>
-          <div class="sys-node">
-            <div class="sys-node-icon">📦</div>
-            <div class="sys-node-name">Internal Libraries</div>
-            <div class="sys-node-desc">Multiple internal libraries solely maintained and published by me - used across
-              projects on GitHub Packages and GitLab Packages.</div>
-            <span class="sys-node-tag">5+ Libraries · Solely maintained</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec oss-sec" id="oss">
-    <div class="ghost" aria-hidden="true">04</div>
-    <div class="si">
-      <div class="ey">Open Source</div>
-      <h2 class="sec-title reveal">Where you'll find<br /><em
-          style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">my published work</em></h2>
-      <div class="oss-grid reveal">
-        <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-          <div class="oss-em">✍️</div>
-          <div class="oss-body">
-            <div class="oss-name">Medium</div>
-            <div class="oss-desc">Technical writing on KMP, Android and Kotlin - sharing patterns, gotchas, and lessons
-              learnt.</div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">Articles &amp; Guides</span><span class="oss-arr"><svg width="15"
-                height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-        <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
-          class="oss-cell">
-          <div class="oss-em">📦</div>
-          <div class="oss-body">
-            <div class="oss-name">Maven Central</div>
-            <div class="oss-desc">Public KMP libraries under <code
-                style="font-size:.68rem;color:inherit">io.github.shivathapaa</code> - production-ready and versioned.
-            </div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">KMP Libraries</span><span class="oss-arr"><svg width="15"
-                height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-        <a href="https://plugins.gradle.org/u/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-          <div class="oss-em">⬡</div>
-          <div class="oss-body">
-            <div class="oss-name">Gradle Plugin Portal</div>
-            <div class="oss-desc">Aalekh and other Gradle plugins - ecosystem tooling for the Kotlin and Android
-              community.</div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">Gradle Plugins</span><span class="oss-arr"><svg width="15"
-                height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-        <a href="https://github.com/shivathapaa?tab=packages" target="_blank" rel="noopener" class="oss-cell">
-          <div class="oss-em">🐙</div>
-          <div class="oss-body">
-            <div class="oss-name">GitHub Packages</div>
-            <div class="oss-desc">Internal and experimental libraries distributed via GitHub Package Registry.</div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">Package Registry</span><span class="oss-arr"><svg width="15"
-                height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-        <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="oss-cell">
-          <div class="oss-em">🔗</div>
-          <div class="oss-body">
-            <div class="oss-name">klibs.io</div>
-            <div class="oss-desc">Listed KMP library author on the community multiplatform library index.</div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">KMP Index</span><span class="oss-arr"><svg width="15" height="15"
-                viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-        <a href="https://pypi.org/user/shivathapaa/" target="_blank" rel="noopener" class="oss-cell">
-          <div class="oss-em">🐍</div>
-          <div class="oss-body">
-            <div class="oss-name">PyPI</div>
-            <div class="oss-desc">Nepali date utilities for Python developers - clean API, well-tested, and actively
-              maintained.</div>
-          </div>
-          <div class="oss-foot"><span class="oss-tag">Python Packages</span><span class="oss-arr"><svg width="15"
-                height="15" viewBox="0 0 15 15" fill="none">
-                <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg></span></div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="blog-sec" id="blog">
-    <div class="ghost" aria-hidden="true">05</div>
-    <div class="si">
-      <div class="ey">Writing</div>
-      <h2 class="sec-title reveal">Latest from<br /><em
-          style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--muted)">the blog</em></h2>
-      <div class="blog-grid" id="blogGrid">
-        <div class="blog-state">
-          <div class="blog-spinner"></div>Fetching articles
-        </div>
-      </div>
-      <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="blog-more reveal">
-        All articles on Medium
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <section class="contact-sec" id="contact">
-    <div class="ghost" aria-hidden="true">06</div>
-    <div class="contact-inner">
-      <div class="contact-left si reveal">
-        <div class="ey" style="margin-bottom:.85rem">Contact</div>
-        <h2 class="contact-big">Let's build<br /><em>something great.</em></h2>
-        <div class="contact-mail-wrap">
-          <a href="mailto:buildwith.shivathapaa@gmail.com" class="contact-mail">
-            <span class="contact-mail-text">buildwith.shivathapaa@gmail.com</span>
-            <span class="contact-mail-arrow">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </span>
+        <div class="soc-list reveal">
+          <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+            <span class="soc-name">GitHub</span>
+            <span class="soc-handle">github.com/shivathapaa</span>
+          </a>
+          <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
+            <span class="soc-name">LinkedIn</span>
+            <span class="soc-handle">linkedin.com/in/shivathapaa</span>
+          </a>
+          <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
+            <span class="soc-name">Medium</span>
+            <span class="soc-handle">medium.com/@shivathapaa</span>
+          </a>
+          <a href="https://dev.to/shivathapaa" target="_blank" rel="noopener" class="soc-row">
+            <span class="soc-name">dev.to</span>
+            <span class="soc-handle">dev.to/shivathapaa</span>
           </a>
         </div>
-        <p class="contact-note">Whether you're building a KMP project, want to collaborate on open source, or just want
-          to say hello - I'd love to hear from you.</p>
       </div>
-      <div class="soc-list si reveal">
-        <a href="https://github.com/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">🐙</div>
-            <div>
-              <div class="soc-name">GitHub</div>
-              <div class="soc-handle">@shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-        <a href="https://www.linkedin.com/in/shivathapaa/" target="_blank" rel="noopener" class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">💼</div>
-            <div>
-              <div class="soc-name">LinkedIn</div>
-              <div class="soc-handle">in/shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-        <a href="https://medium.com/@shivathapaa" target="_blank" rel="noopener" class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">✍️</div>
-            <div>
-              <div class="soc-name">Medium</div>
-              <div class="soc-handle">@shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-        <a href="https://plugins.gradle.org/u/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">⬡</div>
-            <div>
-              <div class="soc-name">Gradle Plugin Portal</div>
-              <div class="soc-handle">u/shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-        <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener"
-          class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">📦</div>
-            <div>
-              <div class="soc-name">Maven Central</div>
-              <div class="soc-handle">io.github.shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-        <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener" class="soc-row">
-          <div class="soc-left">
-            <div class="soc-ic">🔗</div>
-            <div>
-              <div class="soc-name">klibs.io</div>
-              <div class="soc-handle">author/shivathapaa</div>
-            </div>
-          </div>
-          <span class="soc-arr"><svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2 13L13 2M13 2H5.5M13 2V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg></span>
-        </a>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <div class="ft-l">Shiva <span>Thapa</span> · KMP Developer</div>
-    <div class="ft-r">shivathapaa.github.io · Kathmandu · 2026</div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="ft-l">Shiva <span>Thapa</span> · KMP/CMP Lead Developer — shivathapaa.github.io · Kathmandu ·
+      <span id="year">2026</span></p>
+    <p class="ft-r" aria-label="Published on">
+      Published on —
+      <a href="https://central.sonatype.com/namespace/io.github.shivathapaa" target="_blank" rel="noopener">Maven
+        Central</a> ·
+      <a href="https://plugins.gradle.org/u/shivathapaa" target="_blank" rel="noopener">Gradle Plugin Portal</a> ·
+      <a href="https://pypi.org/user/shivathapaa/" target="_blank" rel="noopener">PyPI</a> ·
+      <a href="https://klibs.io/author/shivathapaa" target="_blank" rel="noopener">klibs.io</a> ·
+      <a href="https://play.google.com/store/apps/details?id=com.tallyo.tallyo" target="_blank"
+        rel="noopener">Play Store</a> ·
+      <a href="https://apps.apple.com/np/app/geokrishi-farm/id1639308709" target="_blank"
+        rel="noopener">App Store</a>
+    </p>
+    <p class="ft-thanks">Thanks for stopping by — always up for a good conversation about code.</p>
   </footer>
 
   <a href="#home" class="back-top" id="backTop" aria-label="Back to top">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
       <path d="M9 15V3M4 8l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
         stroke-linejoin="round" />
     </svg>
   </a>
 
-  <script>
-    (function () {
-      const roles = ['KMP / CMP Developer', 'Android Engineer', 'iOS Learner', 'OSS Author', 'Gradle Plugin Author', 'Multiplatform Builder', 'Kotlin Enthusiast'];
-      let i = 0;
-      const sw = document.getElementById('spinWord');
-      setInterval(() => {
-        sw.style.opacity = '0'; sw.style.transform = 'translateY(10px)';
-        setTimeout(() => { i = (i + 1) % roles.length; sw.textContent = roles[i]; sw.style.opacity = '1'; sw.style.transform = 'translateY(0)'; }, 300);
-      }, 2900);
-    })();
-
-    (function () {
-      const t = document.getElementById('tickerTrack');
-      if (!t) return;
-      let p = 0, hw = t.scrollWidth / 2, id;
-      function step() { p += .3; if (p >= hw) p = 0; t.style.transform = 'translateX(-' + p + 'px)'; id = requestAnimationFrame(step); }
-      step();
-      document.getElementById('tickerWrap').addEventListener('mouseenter', () => cancelAnimationFrame(id));
-      document.getElementById('tickerWrap').addEventListener('mouseleave', () => { id = requestAnimationFrame(step); });
-      window.addEventListener('resize', () => { hw = t.scrollWidth / 2; });
-    })();
-
-    (function () {
-      const m = document.getElementById('mqInner');
-      if (!m) return;
-      let p = 0, hw = m.scrollWidth / 2, id;
-      function step() { p += .6; if (p >= hw) p = 0; m.style.transform = 'translateX(-' + p + 'px)'; id = requestAnimationFrame(step); }
-      step();
-      document.querySelector('.mq-bar').addEventListener('mouseenter', () => cancelAnimationFrame(id));
-      document.querySelector('.mq-bar').addEventListener('mouseleave', () => { id = requestAnimationFrame(step); });
-      window.addEventListener('resize', () => { hw = m.scrollWidth / 2; });
-    })();
-
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), { passive: true });
-    const bt = document.getElementById('backTop');
-    window.addEventListener('scroll', () => bt.classList.toggle('vis', scrollY > 600), { passive: true });
-
-    const ham = document.getElementById('ham');
-    const mob = document.getElementById('mobMenu');
-    ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-    document.querySelectorAll('.mob-lnk').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
-
-    const revObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }), { threshold: .07 });
-    document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
-
-    const secs = document.querySelectorAll('section[id]');
-    const nls = document.querySelectorAll('.nav-links a');
-    const secObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) nls.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); }), { threshold: .25 });
-    secs.forEach(s => secObs.observe(s));
-
-    (function () {
-      const grid = document.getElementById('blogGrid');
-      const USER = 'shivathapaa';
-
-      function fmt(d) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }); }
-      function strip(h) { const t = document.createElement('div'); t.innerHTML = h; return t.textContent || t.innerText || ''; }
-      function readTime(c) { return Math.max(1, Math.round(strip(c).trim().split(/\s+/).length / 200)) + ' min read'; }
-      function category(item) { return item.categories && item.categories.length ? item.categories[0] : 'Android / KMP'; }
-      function getThumb(item) {
-        if (item.thumbnail && item.thumbnail.startsWith('http')) return item.thumbnail;
-        const m = item.content && item.content.match(/<img[^>]+src="([^"]+)"/);
-        return m ? m[1] : null;
-      }
-
-      function renderCards(items) {
-        if (!items || !items.length) {
-          grid.innerHTML = `<div class="blog-state">
-            <a href="https://medium.com/@${USER}" target="_blank" rel="noopener"
-               style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,134,42,.3)">
-              Visit Medium →
-            </a></div>`;
-          return;
-        }
-        grid.innerHTML = items.slice(0, 3).map(item => {
-          const img = getThumb(item);
-          return `
-      <a href="${item.link}" target="_blank" rel="noopener" class="blog-card"
-         style="opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease">
-        ${img
-              ? `<img class="blog-thumb" src="${img}" alt="" loading="lazy"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-              : ''
-            }
-        <div class="blog-thumb-ph" style="${img ? 'display:none' : ''}">✍️</div>
-        <div class="blog-body">
-          <div class="blog-meta">
-            <span class="blog-date">${fmt(item.pubDate)}</span>
-            <span class="blog-sep"></span>
-            <span class="blog-read">${readTime(item.content)}</span>
-          </div>
-          <div class="blog-title">${item.title}</div>
-          <div class="blog-foot">
-            <span class="blog-tag">${category(item)}</span>
-            <span class="blog-arr">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </a>`;
-        }).join('');
-
-        requestAnimationFrame(() => {
-          grid.querySelectorAll('.blog-card').forEach((el, i) => {
-            setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 80 + i * 130);
-          });
-        });
-      }
-
-      const RSS_URL = `https://medium.com/feed/@${USER}`;
-      fetch(`https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`)
-        .then(r => r.text())
-        .then(xml => {
-          const doc = new DOMParser().parseFromString(xml, 'text/xml');
-          const items = [...doc.querySelectorAll('item')].slice(0, 3).map(el => {
-            const content = el.querySelector('encoded')?.textContent || el.querySelector('description')?.textContent || '';
-            const cats = [...el.querySelectorAll('category')].map(c => c.textContent);
-            const thumbMatch = content.match(/<img[^>]+src="([^"]+)"/);
-            return {
-              title: el.querySelector('title')?.textContent || '',
-              link: el.querySelector('link')?.textContent || '',
-              pubDate: el.querySelector('pubDate')?.textContent || '',
-              content,
-              categories: cats,
-              thumbnail: thumbMatch ? thumbMatch[1] : null
-            };
-          });
-          renderCards(items);
-        })
-        .catch(() => {
-          grid.innerHTML = `<div class="blog-state">
-            <a href="https://medium.com/@${USER}" target="_blank" rel="noopener"
-               style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(212,134,42,.3)">
-              Read on Medium →
-            </a></div>`;
-        });
-    })();
-  </script>
 </body>
 
 </html>
