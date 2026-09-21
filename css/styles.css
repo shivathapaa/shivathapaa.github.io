@@ -1040,6 +1040,17 @@ code {
   margin-bottom: var(--s2);
 }
 
+/* what was actually mine on a team product, said once, up front */
+.mission-role {
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  line-height: 1.75;
+  color: var(--ink2);
+  border-left: 2px solid var(--gold-a25);
+  padding-left: var(--s3);
+  margin-bottom: var(--s3);
+}
+
 .mission-pts {
   list-style: none;
   margin-bottom: var(--s3);
